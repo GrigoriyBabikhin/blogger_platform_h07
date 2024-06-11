@@ -2,8 +2,13 @@ import express from 'express'
 import {Request, Response} from "express";
 import {SETTINGS} from "./settings";
 import {db} from "./db/db";
-import {BlogsDbType} from "./db/db-type";
-import {BodyBlogsType, ParamsIdBlogType} from "./input-output-types/request-response-types";
+import {BlogsDbType, PostsDbType} from "./db/db-type";
+import {
+    BlogsBodyType,
+    ParamsIdBlogType,
+    ParamsIdPostType,
+    PostsBodyType
+} from "./input-output-types/request-response-types";
 
 export const app = express()
 app.use(express.json())
@@ -13,6 +18,7 @@ app.delete(SETTINGS.PATH.TESTING, (req: Request, res: Response) => {
     res.status(204).json()
 })//зачистка базы данных перед тестами.
 
+
 app.get(SETTINGS.PATH.BLOGS, (
     req: Request,
     res: Response<BlogsDbType[]>) => {
@@ -20,7 +26,7 @@ app.get(SETTINGS.PATH.BLOGS, (
 })
 
 app.post(SETTINGS.PATH.BLOGS, (
-    req: Request<any, any, BodyBlogsType>,// Используем BodyBlogsType для тела запроса
+    req: Request<any, any, BlogsBodyType>,// Используем BodyBlogsType для тела запроса
     res: Response<BlogsDbType> // Используем BlogsDbType для тела ответа
 ) => {
     const {name, description, websiteUrl} = req.body
@@ -31,6 +37,7 @@ app.post(SETTINGS.PATH.BLOGS, (
         description,
         websiteUrl
     }
+    //добавляем в базу данных на newBlog
     db.blogs.push(newBlog)
     res.status(201).json(newBlog)
 })
@@ -49,7 +56,7 @@ app.get(SETTINGS.PATH.BLOGS + '/:blogId', (
 })
 
 app.put(SETTINGS.PATH.BLOGS + '/:blogId', (
-    req: Request<ParamsIdBlogType, any, BodyBlogsType>,
+    req: Request<ParamsIdBlogType, any, BlogsBodyType>,
     res: Response<BlogsDbType>
 ) => {
     let blogID: string = req.params.blogId
@@ -84,4 +91,70 @@ app.delete(SETTINGS.PATH.BLOGS + '/:blogId', (
 
 })
 
+app.get(SETTINGS.PATH.POSTS, (
+    req: Request,
+    res: Response<PostsDbType[]>) => {
+    res.status(200).json(db.posts)
+})
 
+app.post(SETTINGS.PATH.POSTS, (
+    req: Request<any, any, PostsBodyType>,
+    res: Response<PostsDbType>,
+) => {
+    const {title, shortDescription, content, blogId} = req.body
+    const newPost: PostsDbType = {
+        id: Date.now() + Math.random().toString(),
+        title,
+        shortDescription,
+        content,
+        blogId,
+        blogName: "string"
+    }
+    db.posts.push(newPost)
+    res.status(201).json(newPost)
+})
+
+app.get(SETTINGS.PATH.POSTS + "/:postId", (
+    req: Request<ParamsIdPostType>,
+    res: Response<PostsDbType>,
+) => {
+    const postId: string = req.params.postId
+    const post: PostsDbType | undefined = db.posts.find(p => p.id === postId)
+    if (!post) {
+        res.status(404).json()
+        return
+    }
+    res.status(200).json(post)
+})
+
+app.put(SETTINGS.PATH.POSTS + "/:postId", (
+    req: Request<ParamsIdPostType>,
+    res: Response,) => {
+    const postId: string = req.params.postId
+    const post: PostsDbType | undefined = db.posts.find(p => p.id === postId)
+    if (!post) {
+        res.status(404).json()
+        return
+    }
+    const {title, shortDescription, content, blogId} = req.body
+    if (post) {
+        post.title = title
+        post.shortDescription = shortDescription
+        post.content = content
+        post.blogId = blogId
+    }
+    res.status(204).json(post)
+})
+
+app.delete(SETTINGS.PATH.POSTS + "/:postId",(
+    req:Request,
+    res:Response,)=>{
+    const postId: string = req.params.postId
+    const post: PostsDbType | undefined = db.posts.find(p => p.id === postId)
+    if (!post) {
+        res.status(404).json()
+        return
+    }
+    db.posts = db.posts.filter(p => p.id !== postId)
+    res.status(204).json()
+})
