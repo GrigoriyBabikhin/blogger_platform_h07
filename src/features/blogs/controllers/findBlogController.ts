@@ -1,13 +1,14 @@
 import {Request, Response} from "express";
 import {BlogViewModel} from "../../../input-output-types/blogs-types";
 import {db} from "../../../db/db";
+import {blogsRepository} from "../blogsRepository";
 
 export const findBlogController = (
     req: Request<{blogId: string}>,
     res: Response<BlogViewModel>
 ) => {
-    let blogID: string = req.params.blogId
-    let blog: BlogViewModel | undefined = db.blogs.find(b => b.id === blogID)
+
+    let blog: BlogViewModel | undefined = blogsRepository.findBlogID(req.params.blogId)
     if (!blog) {
         res.status(404).json()
         return
