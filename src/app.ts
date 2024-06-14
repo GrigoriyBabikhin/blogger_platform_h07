@@ -7,7 +7,6 @@ import {testingRouter} from "./features/testing/testing-router";
 export const app = express() // создать приложение
 app.use(express.json()) // создание свойств-объектов body и query во всех реквестах
 
-app.delete(SETTINGS.PATH.TESTING, )//зачистка базы данных перед тестами.
 app.use(SETTINGS.PATH.TESTING,testingRouter)
 app.use(SETTINGS.PATH.BLOGS, blogsRouter)
 app.use(SETTINGS.PATH.POSTS, postsRouter)
