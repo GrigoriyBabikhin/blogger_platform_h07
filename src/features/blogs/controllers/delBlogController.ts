@@ -1,17 +1,16 @@
 import {Request, Response} from "express";
-import {db} from "../../../db/db";
+import {blogsRepository} from "../blogsRepository";
 
 export const delBlogController = (
-    req: Request<{blogId: string}>,
+    req: Request<{ blogId: string }>,
     res: Response) => {
-    const blogID: string = req.params.blogId
-    const blog = db.blogs.find(b => b.id === blogID)
-    if (!blog) {
-        res.status(404).json()
+
+    const isDelete = blogsRepository.deleteBlog(req.params.blogId)
+    //isDelete вернет true или false
+    if (isDelete) {
+        res.status(204).json()
         return
+    } else {
+        res.status(404).json()
     }
-
-    db.blogs = db.blogs.filter(b => b.id !== blogID)
-    res.status(204).json()
-
 }

@@ -36,6 +36,20 @@ export const blogsRepository = {
             return false
         }
 
+    },
+    deleteBlog(blogID: string) {
+        //Ищем блог.
+        const blog: BlogsDbType | undefined = db.blogs.find(b => b.id === blogID)
+        //Если блог не найден вернуть false
+        if (!blog) {
+            return false
+        }
+        //Если блог найден удалить из базы и вернуть true.
+        if (blog) {
+            db.blogs = db.blogs.filter(b => b.id !== blogID)
+        }
+        return true
+
     }
 
 }
