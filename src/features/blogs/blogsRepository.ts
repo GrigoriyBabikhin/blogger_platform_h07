@@ -3,7 +3,12 @@ import {BlogsDbType} from "../../db/blog-db-type";
 import {db} from "../../db/db";
 
 export const blogsRepository = {
+    //get
+    getAll(): BlogsDbType[] {
+        return db.blogs
+    },
 
+    //post
     create(blog: BlogInputModel) {
         const {name, description, websiteUrl} = blog
         //newBlog в единственном числе так как создаем 1 блог.
@@ -17,10 +22,14 @@ export const blogsRepository = {
         db.blogs.push(newBlog)
         return newBlog
     },
+
+    //getById
     findBlogID(blogID: string) {
         let blog: BlogViewModel | undefined = db.blogs.find(b => b.id === blogID)
         return blog
     },
+
+    // put
     updateBlog(blogID: string, blog: BlogInputModel) {
 
         let newBlog: BlogViewModel | undefined = db.blogs.find(b => b.id === blogID)
@@ -35,21 +44,15 @@ export const blogsRepository = {
         } else {
             return false
         }
-
     },
+    //delete
     deleteBlog(blogID: string) {
-        //Ищем блог.
-        const blog: BlogsDbType | undefined = db.blogs.find(b => b.id === blogID)
-        //Если блог не найден вернуть false
-        if (!blog) {
-            return false
-        }
-        //Если блог найден удалить из базы и вернуть true.
+        const blog = db.blogs.find(b => b.id === blogID)
         if (blog) {
             db.blogs = db.blogs.filter(b => b.id !== blogID)
+            return true
+        } else {
+            return false
         }
-        return true
-
-    }
-
+    },
 }
