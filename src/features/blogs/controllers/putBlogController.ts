@@ -6,6 +6,15 @@ export const putBlogController = (
     req: Request<{ blogId: string }, any, BlogInputModel>,
     res: Response
 ) => {
+
+    const isUpdated = blogsRepository.updateBlog(req.params.blogId, req.body)
+    if (!isUpdated) {
+        res.status(404).json()
+    } else {
+        const blog = blogsRepository.findBlogID(req.params.blogId)
+        res.status(204).json(blog)
+    }
+
     // let blogID: string = req.params.blogId
     // let blog: BlogViewModel | undefined = db.blogs.find(b => b.id === blogID)
     // if (!blog) {
@@ -21,11 +30,4 @@ export const putBlogController = (
     //     blog.websiteUrl = websiteUrl
     // }
     // res.status(204).json(blog)
-    const isUpdated = blogsRepository.updateBlog(req.params.blogId, req.body)
-    if (!isUpdated) {
-        res.status(404).json
-    } else {
-        const blog: BlogViewModel | undefined = blogsRepository.findBlogID(req.params.blogId)
-        res.status(204).json(blog)
-    }
 }

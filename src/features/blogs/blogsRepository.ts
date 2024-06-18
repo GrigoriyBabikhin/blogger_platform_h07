@@ -13,7 +13,7 @@ export const blogsRepository = {
         const {name, description, websiteUrl} = blog
         //newBlog в единственном числе так как создаем 1 блог.
         const newBlog: BlogsDbType = {
-            id: Date.now() + Math.random().toString(),
+            id: new Date().toISOString() + Math.random(),
             name,
             description,
             websiteUrl
@@ -21,6 +21,8 @@ export const blogsRepository = {
         //добавляем в базу данных newBlog
         db.blogs.push(newBlog)
         return newBlog
+        //    db.blogs = [...db.blogs, newBlog]
+        //         return newBlog.id
     },
 
     //getById
@@ -46,10 +48,10 @@ export const blogsRepository = {
         }
     },
     //delete
-    deleteBlog(blogID: string) {
-        const blog = db.blogs.find(b => b.id === blogID)
+    deleteBlog(blogId: string) {
+        const blog = db.blogs.find(b => b.id === blogId)
         if (blog) {
-            db.blogs = db.blogs.filter(b => b.id !== blogID)
+            db.blogs = db.blogs.filter(b => b.id !== blogId)
             return true
         } else {
             return false

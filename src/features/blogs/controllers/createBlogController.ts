@@ -8,6 +8,6 @@ export const createBlogController = (
     req: Request<any, any, BlogInputModel>,//BlogInputModel данные в теле запроса
     res: Response<BlogViewModel> //BlogViewModel данные в теле ответа
 ) => {
-    const newBlog: BlogsDbType = blogsRepository.create(req.body)
+    const newBlog = blogsRepository.create(req.body)
     res.status(201).json(newBlog)
 }

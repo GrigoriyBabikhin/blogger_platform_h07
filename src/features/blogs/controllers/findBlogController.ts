@@ -8,7 +8,7 @@ export const findBlogController = (
     res: Response<BlogViewModel>
 ) => {
 
-    let blog: BlogViewModel | undefined = blogsRepository.findBlogID(req.params.blogId)
+    let blog = blogsRepository.findBlogID(req.params.blogId)
     if (!blog) {
         res.status(404).json()
         return
