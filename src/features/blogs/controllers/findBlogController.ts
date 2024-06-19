@@ -1,6 +1,5 @@
 import {Request, Response} from "express";
 import {BlogViewModel} from "../../../input-output-types/blogs-types";
-import {db} from "../../../db/db";
 import {blogsRepository} from "../blogsRepository";
 
 export const findBlogController = (
@@ -8,7 +7,7 @@ export const findBlogController = (
     res: Response<BlogViewModel>
 ) => {
 
-    let blog = blogsRepository.findBlogID(req.params.blogId)
+    let blog = blogsRepository.findBlogById(req.params.blogId)
     if (!blog) {
         res.status(404).json()
         return

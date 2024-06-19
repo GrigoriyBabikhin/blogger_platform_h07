@@ -1,5 +1,5 @@
 import {Request, Response} from "express";
-import {BlogInputModel, BlogViewModel} from "../../../input-output-types/blogs-types";
+import {BlogInputModel} from "../../../input-output-types/blogs-types";
 import {blogsRepository} from "../blogsRepository";
 
 export const putBlogController = (
@@ -11,7 +11,7 @@ export const putBlogController = (
     if (!isUpdated) {
         res.status(404).json()
     } else {
-        const blog = blogsRepository.findBlogID(req.params.blogId)
+        const blog = blogsRepository.findBlogById(req.params.blogId)
         res.status(204).json(blog)
     }
 

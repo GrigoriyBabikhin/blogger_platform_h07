@@ -9,7 +9,8 @@ export const blogsRepository = {
     },
 
     //post
-    create(blog: BlogInputModel) {
+    //(): Type указывает на тип значения, которое возвращает функция.
+    create(blog: BlogInputModel): BlogsDbType {
         const {name, description, websiteUrl} = blog
         //newBlog в единственном числе так как создаем 1 блог.
         const newBlog: BlogsDbType = {
@@ -26,29 +27,29 @@ export const blogsRepository = {
     },
 
     //getById
-    findBlogID(blogID: string) {
-        let blog: BlogViewModel | undefined = db.blogs.find(b => b.id === blogID)
-        return blog
+    findBlogById(blogId: string): BlogViewModel | undefined {
+        return db.blogs.find(b => b.id === blogId)
     },
 
     // put
-    updateBlog(blogID: string, blog: BlogInputModel) {
+    updateBlog(blogId: string, blog: BlogInputModel): boolean {
 
-        let newBlog: BlogViewModel | undefined = db.blogs.find(b => b.id === blogID)
+        const blogToUpdate = db.blogs.find(b => b.id === blogId)
 
         const {name, description, websiteUrl} = blog
 
-        if (newBlog) {
-            newBlog.name = name
-            newBlog.description = description
-            newBlog.websiteUrl = websiteUrl
+        if (blogToUpdate) {
+            blogToUpdate.name = name
+            blogToUpdate.description = description
+            blogToUpdate.websiteUrl = websiteUrl
             return true
         } else {
             return false
         }
     },
+
     //delete
-    deleteBlog(blogId: string) {
+    deleteBlog(blogId: string): boolean {
         const blog = db.blogs.find(b => b.id === blogId)
         if (blog) {
             db.blogs = db.blogs.filter(b => b.id !== blogId)
@@ -56,5 +57,5 @@ export const blogsRepository = {
         } else {
             return false
         }
-    },
+    }
 }

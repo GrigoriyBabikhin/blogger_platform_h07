@@ -1,13 +1,12 @@
 import {Request, Response} from "express";
 import {PostViewModel} from "../../../input-output-types/post-types";
-import {db} from "../../../db/db";
 import {postsRepository} from "../postsRepository";
 
 export const findPostController = (
     req: Request<{postId: string}>,
     res: Response<PostViewModel>,
 ) => {
-    const post = postsRepository.findPostID(req.params.postId)
+    const post = postsRepository.findPostById(req.params.postId)
     if(post){
         res.status(200).json(post)
     } else {

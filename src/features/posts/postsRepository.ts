@@ -1,15 +1,15 @@
 import {PostsDbType} from "../../db/post-db-type";
 import {db} from "../../db/db";
 import {PostInputModel, PostViewModel} from "../../input-output-types/post-types";
-import {BlogInputModel} from "../../input-output-types/blogs-types";
 
 export const postsRepository = {
     getAll(): PostsDbType[] {
         return db.posts
     },
 
-    create(posts: PostInputModel) {
+    create(posts: PostInputModel): PostsDbType {
         const {title, shortDescription, content, blogId} = posts
+
         const newPost: PostsDbType = {
             id: Date.now() + Math.random().toString(),
             title,
@@ -22,29 +22,28 @@ export const postsRepository = {
         return newPost
     },
 
-    findPostID(postId: string) {
-        const post: PostViewModel | undefined = db.posts.find(p => p.id === postId)
-        return post
+    findPostById(postId: string): PostViewModel | undefined {
+        return db.posts.find(p => p.id === postId)
     },
 
-    updatePost(postId: string, post: PostInputModel) {
+    updatePost(postId: string, post: PostInputModel): boolean {
 
-        const newPost: PostsDbType | undefined = db.posts.find(p => p.id === postId)
+        const postToUpdate = db.posts.find(p => p.id === postId)
 
         const {title, shortDescription, content, blogId} = post
 
-        if (newPost) {
-            newPost.title = title
-            newPost.shortDescription = shortDescription
-            newPost.content = content
-            newPost.blogId = blogId
+        if (postToUpdate) {
+            postToUpdate.title = title
+            postToUpdate.shortDescription = shortDescription
+            postToUpdate.content = content
+            postToUpdate.blogId = blogId
             return true
         } else {
             return false
         }
     },
 
-    deletePost(postId: string){
+    deletePost(postId: string): boolean {
 
         const post: PostsDbType | undefined = db.posts.find(p => p.id === postId)
         if (post) {
@@ -53,7 +52,5 @@ export const postsRepository = {
         } else {
             return false
         }
-
     }
-
 }

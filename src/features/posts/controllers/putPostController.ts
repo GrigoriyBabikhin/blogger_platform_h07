@@ -8,7 +8,7 @@ export const putPostController = (
     const isUpdated = postsRepository.updatePost(req.params.postId, req.body)
 
     if (isUpdated) {
-        const posts = postsRepository.findPostID(req.params.postId)
+        const posts = postsRepository.findPostById(req.params.postId)
         res.status(204).json(posts)
     } else {
         res.status(404).json()
