@@ -1,7 +1,5 @@
 import {Request, Response} from "express";
 import {BlogInputModel, BlogViewModel} from "../../../input-output-types/blogs-types";
-import {BlogsDbType} from "../../../db/blog-db-type";
-import {db} from "../../../db/db";
 import {blogsRepository} from "../blogsRepository";
 
 export const createBlogController = (
