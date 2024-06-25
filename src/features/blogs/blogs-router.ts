@@ -4,7 +4,7 @@ import {createBlogController} from "./controllers/createBlogController";
 import {findBlogController} from "./controllers/findBlogController";
 import {putBlogController} from "./controllers/putBlogController";
 import {delBlogController} from "./controllers/delBlogController";
-import {blogsInputValidations} from "./validators-middlewares/blogValidation";
+import {blogsInputValidations} from "./middlewares/blogValidation";
 import {inputCheckErrorsMiddleware} from "../../global-middiewares/inputCheckErrorsMiddleware";
 
 
