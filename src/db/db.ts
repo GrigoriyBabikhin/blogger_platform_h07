@@ -13,7 +13,7 @@ export const db: DBType = {
             "id": "1",
             "name": "string",
             "description": "string",
-            "websiteUrl": "https://unZsgo1mZxaWbkgbP6XACgXovODuNvmYmFX.CO2Stig-GQjYhiWwc.G5fDEKWgXeMqX1gEq81NMe2H5qFUQ1iHgap4IK"
+            "websiteUrl": "https://git.com"
 
         }
     ],

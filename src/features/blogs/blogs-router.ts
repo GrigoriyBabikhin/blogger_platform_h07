@@ -4,14 +4,14 @@ import {createBlogController} from "./controllers/createBlogController";
 import {findBlogController} from "./controllers/findBlogController";
 import {putBlogController} from "./controllers/putBlogController";
 import {delBlogController} from "./controllers/delBlogController";
-import {blogsInputValidations} from "./validators-middlewares/input-validation";
-import {inputValidationMiddlewares} from "../../global-middiewares/input-validation-middlewares";
+import {blogsInputValidations} from "./validators-middlewares/blogValidation";
+import {inputCheckErrorsMiddleware} from "../../global-middiewares/inputCheckErrorsMiddleware";
 
 
 export const blogsRouter = Router({})
 
 blogsRouter.get('/', getBlogsController)
-blogsRouter.post('/', blogsInputValidations(), inputValidationMiddlewares, createBlogController)
+blogsRouter.post('/', blogsInputValidations(), inputCheckErrorsMiddleware, createBlogController)
 blogsRouter.get('/:blogId', findBlogController)
-blogsRouter.put('/:blogId', blogsInputValidations(), inputValidationMiddlewares, putBlogController)
+blogsRouter.put('/:blogId', blogsInputValidations(), inputCheckErrorsMiddleware, putBlogController)
 blogsRouter.delete('/:blogId', delBlogController)
