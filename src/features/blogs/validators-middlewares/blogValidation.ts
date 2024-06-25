@@ -1,4 +1,4 @@
-import {body, validationResult} from "express-validator";
+import {body} from "express-validator";
 
 export const descriptionValidation = body('description')
     .notEmpty().withMessage('There should be a string')
