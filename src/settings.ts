@@ -1,4 +1,5 @@
 import {config} from 'dotenv'
+
 config() // добавление переменных из файла .env в process.env
 
 export const SETTINGS = {
@@ -8,4 +9,5 @@ export const SETTINGS = {
         BLOGS: '/blogs',
         POSTS: '/posts'
     },
+    ADMIN_AUTH: 'admin:qwerty'
 }

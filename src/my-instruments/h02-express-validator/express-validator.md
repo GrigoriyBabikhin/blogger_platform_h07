@@ -36,3 +36,17 @@ export const websiteUrlValidation = body('websiteUrl')
     .trim().isURL().withMessage('The URL must be https://')
     .isLength({min: 10, max: 100}).withMessage('string of 10 to 100 symbol.')
 ```
+
+# Пример как пользоваться `.custom()` методом.
+```ts
+export const blogIdValidation = body('blogId')
+    .isString().withMessage('There should be a string')
+    .trim().custom(blogId => {
+        const blog = blogsRepository.findBlogById(blogId)
+        if (!blog) {
+            throw new Error('Blog not found')
+        } else {
+            return true
+        }
+    })
+```
