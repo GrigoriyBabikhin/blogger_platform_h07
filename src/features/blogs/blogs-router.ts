@@ -6,13 +6,13 @@ import {putBlogController} from "./controllers/putBlogController";
 import {delBlogController} from "./controllers/delBlogController";
 import {blogsInputValidations} from "./middlewares/blogValidation";
 import {inputCheckErrorsMiddleware} from "../../global-middiewares/inputCheckErrorsMiddleware";
-import {adminMiddleware} from "../../global-middiewares/admin-middleware";
+import {adminAuthentication} from "../../global-middiewares/adminAuthentication";
 
 
 export const blogsRouter = Router({})
 
 blogsRouter.get('/', getBlogsController)
-blogsRouter.post('/', adminMiddleware, blogsInputValidations(), inputCheckErrorsMiddleware, createBlogController)
-blogsRouter.get('/:blogId', adminMiddleware, findBlogController)
+blogsRouter.post('/', adminAuthentication, blogsInputValidations(), inputCheckErrorsMiddleware, createBlogController)
+blogsRouter.get('/:blogId', adminAuthentication, findBlogController)
 blogsRouter.put('/:blogId', blogsInputValidations(), inputCheckErrorsMiddleware, putBlogController)
-blogsRouter.delete('/:blogId', adminMiddleware, delBlogController)
+blogsRouter.delete('/:blogId', adminAuthentication, delBlogController)

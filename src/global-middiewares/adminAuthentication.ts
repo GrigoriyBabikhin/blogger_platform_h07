@@ -2,8 +2,8 @@ import {Request, Response, NextFunction} from "express";
 import {SETTINGS} from "../settings";
 
 
-export const adminMiddleware = (req: Request, res: Response, next: NextFunction) => {
-    const auth = req.headers['authorization'] as string
+export const adminAuthentication = (req: Request, res: Response, next: NextFunction) => {
+    const auth = req.headers['authorization'] as string //Basic YWRtaW46cXdlcnR5
 
     if (!auth) {
         res.status(401).json({error: 'Authentication required'})
@@ -19,7 +19,7 @@ export const adminMiddleware = (req: Request, res: Response, next: NextFunction)
 
 
     if (auth.slice(6) !== codedAuth || auth.slice(0, 5) !== 'Basic') {
-        res.status(401).json()
+        res.status(401).json({error: 'Authentication required'})
         return;
     }
 

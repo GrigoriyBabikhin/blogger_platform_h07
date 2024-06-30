@@ -6,11 +6,12 @@ import {putPostController} from "./controllers/putPostController";
 import {delPostController} from "./controllers/delPostController";
 import {postInputValidations} from "./middiewares/post-input-validations";
 import {inputCheckErrorsMiddleware} from "../../global-middiewares/inputCheckErrorsMiddleware";
+import {adminAuthentication} from "../../global-middiewares/adminAuthentication";
 
 export const postsRouter = Router()
 
 postsRouter.get('/', getPostsController)
-postsRouter.post('/', postInputValidations(), inputCheckErrorsMiddleware, createPostController)
+postsRouter.post('/', adminAuthentication, postInputValidations(), inputCheckErrorsMiddleware, createPostController)
 postsRouter.get("/:postId", findPostController)
-postsRouter.put("/:postId", postInputValidations(), inputCheckErrorsMiddleware, putPostController)
-postsRouter.delete("/:postId", delPostController)
+postsRouter.put("/:postId", adminAuthentication, postInputValidations(), inputCheckErrorsMiddleware, putPostController)
+postsRouter.delete("/:postId", adminAuthentication, delPostController)
