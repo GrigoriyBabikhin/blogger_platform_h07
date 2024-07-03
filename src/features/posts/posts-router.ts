@@ -4,7 +4,7 @@ import {createPostController} from "./controllers/createPostController";
 import {findPostController} from "./controllers/findPostController";
 import {putPostController} from "./controllers/putPostController";
 import {delPostController} from "./controllers/delPostController";
-import {postInputValidations} from "./middiewares/post-input-validations";
+import {postInputValidations} from "./postInputValidations";
 import {inputCheckErrorsMiddleware} from "../../global-middiewares/inputCheckErrorsMiddleware";
 import {adminAuthentication} from "../../global-middiewares/adminAuthentication";
 

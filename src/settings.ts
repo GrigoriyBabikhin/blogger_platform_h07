@@ -5,9 +5,11 @@ config() // добавление переменных из файла .env в pr
 export const SETTINGS = {
     PORT: process.env.PORT || 3003,
     PATH: {
-        TESTING: 'testing/all-data',
+        TESTING: '/testing/all-data',
         BLOGS: '/blogs',
         POSTS: '/posts'
     },
     ADMIN_AUTH: 'admin:qwerty'
 }
+//admin\qwerty
+//"/testing/all-data"

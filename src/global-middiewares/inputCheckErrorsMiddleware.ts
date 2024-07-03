@@ -5,12 +5,15 @@ export const inputCheckErrorsMiddleware = (
     req: Request,
     res: Response,
     next: NextFunction) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        //array({onlyFirstError: true})}) вернет только первую ошибку.
-        res.status(400).json({errors: errors.array({onlyFirstError: true})});
+    //array({onlyFirstError: true})}) вернет только первую ошибку.
+    const e = validationResult(req);
+    const errors = e.array({onlyFirstError: true})
+
+    if (errors.length) {
+        res.status(400).json({errorsMessages: errors.map(i => i.msg)})
         return
-    } else {
-        next()
     }
+    next()
 }
+
+//Должно вернуть: { errorsMessages: [{ message: Any<String>, field: "websiteUrl" }, { message: Any<String>, field: "name" }] }
