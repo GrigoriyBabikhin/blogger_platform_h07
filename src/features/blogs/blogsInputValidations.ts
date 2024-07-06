@@ -1,12 +1,13 @@
 import {body} from "express-validator";
+import {inputCheckErrorsMiddleware} from "../../global-middiewares/inputCheckErrorsMiddleware";
 
-export const blogsInputValidations = () => {
-    return [
-        nameValidation,
-        descriptionValidation,
-        websiteUrlValidation,
-    ]
-}
+export const blogsInputValidations = () => [
+    nameValidation,
+    descriptionValidation,
+    websiteUrlValidation,
+    inputCheckErrorsMiddleware,
+]
+
 
 export const descriptionValidation = body('description')
     .isString().withMessage({message: 'There should be a string', field: 'description'})
@@ -18,7 +19,10 @@ export const nameValidation = body('name')
 
 export const websiteUrlValidation = body('websiteUrl')
     .isString().withMessage({message: 'There should be a string', field: 'websiteUrl'})
-    .trim().isURL().withMessage({message: 'The URL must be https://', field: 'websiteUrl'})
+    .trim().matches('^https://([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$').withMessage({
+        message: 'The URL must be https://',
+        field: 'websiteUrl'
+    })
     .isLength({min: 10, max: 100}).withMessage({message: 'string of 10 to 100 symbol.', field: 'websiteUrl'})
 
 //Expected data: { errorsMessages: [{ message: Any<String>, field: "websiteUrl" }, { message: Any<String>, field: "name" }] }

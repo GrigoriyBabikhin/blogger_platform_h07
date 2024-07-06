@@ -50,16 +50,19 @@ yarn add concurrently --dev
 ~~~
 
 **Нужно вставить в `package.json`  настройки и запустить команды:**
-- watch - создание джаваскрипт бэкэнда на основе тайпскрипт кода
-- dev - запуск джаваскрипт бэкэнда
-- jest - запуск тестов (для запуска тестов НЕ нужно запускать бэкэнд)
+- watch - создание джаваскрипт бэкэнда на основе тайпскрипт кода.
+- dev - запуск джаваскрипт бэкэнда.
+- jest - запуск тестов (для запуска тестов НЕ нужно запускать бэкэнд).
+- watch and dev - запуск 2 команд одновременно.
+- jest:coverage - отчеты о покрытии кода тестами.
 ```json
     "scripts": {
-        "watch": "tsc -w",
-        "dev": "yarn nodemon --inspect dist/index.js",
-        "jest": "jest -i",
-        "watch and dev": "concurrently \"yarn watch\" \"yarn dev\""
-    },
+    "watch": "tsc -w",
+    "dev": "yarn nodemon --inspect dist/index.js",
+    "jest": "jest -i",
+    "watch and dev": "concurrently \"yarn watch\" \"yarn dev\"",
+    "jest:coverage": "jest -i --coverage"
+}
 ```
 Правой кнопкой мыши  `package.json` ➡️ `Show npm Scripts`  
 ***

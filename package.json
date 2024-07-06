@@ -28,6 +28,7 @@
     "watch": "tsc -w",
     "dev": "yarn nodemon --inspect dist/index.js",
     "jest": "jest -i",
-    "watch and dev": "concurrently \"yarn watch\" \"yarn dev\""
+    "watch and dev": "concurrently \"yarn watch\" \"yarn dev\"",
+    "jest:coverage": "jest -i --coverage"
   }
 }
