@@ -1,5 +1,5 @@
 import {BlogInputModel, BlogViewModel} from "../../input-output-types/blogs-types";
-import {BlogsDbType} from "../../db/blog-db-type";
+import {BlogsDbType} from "../../db/dbType/blog-db-type";
 import {db} from "../../db/db";
 
 export const blogsRepository = {

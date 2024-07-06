@@ -1,4 +1,4 @@
-import {PostsDbType} from "../../db/post-db-type";
+import {PostsDbType} from "../../db/dbType/post-db-type";
 import {db} from "../../db/db";
 import {PostInputModel, PostViewModel} from "../../input-output-types/post-types";
 

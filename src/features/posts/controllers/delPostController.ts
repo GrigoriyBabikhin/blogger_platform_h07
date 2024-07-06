@@ -1,5 +1,5 @@
 import {Request, Response} from "express";
-import {PostsDbType} from "../../../db/post-db-type";
+import {PostsDbType} from "../../../db/dbType/post-db-type";
 import {db} from "../../../db/db";
 import {postsRepository} from "../postsRepository";
 

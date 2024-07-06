@@ -1,5 +1,5 @@
-import {BlogsDbType} from "./blog-db-type";
-import {PostsDbType} from "./post-db-type";
+import {BlogsDbType} from "./dbType/blog-db-type";
+import {PostsDbType} from "./dbType/post-db-type";
 
 //Типизируем db и указываем что данные мы храним в массиве.
 export type DBType = {
