@@ -1,6 +1,12 @@
 import {Request, Response, NextFunction} from "express";
 import {SETTINGS} from "../settings";
 
+export const codedAuthBase64 = (code: string) => {
+    //это для авторизации
+    const buff2 = Buffer.from(SETTINGS.ADMIN_AUTH)
+    const codedAuth = buff2.toString('base64')
+    return codedAuth
+}
 
 export const adminAuthentication = (req: Request, res: Response, next: NextFunction) => {
 //К нам прилетел закодированный в base 64 const auth = "Basic YWRtaW46cXdlcnR5"
