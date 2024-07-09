@@ -5,6 +5,7 @@ config() // добавление переменных из файла .env в pr
 export const SETTINGS = {
     PORT: process.env.PORT || 3003,
     PATH: {
+        TESTINGBLOGS: '/__test__/blogs',
         TESTING: '/testing/all-data',
         BLOGS: '/blogs',
         POSTS: '/posts'

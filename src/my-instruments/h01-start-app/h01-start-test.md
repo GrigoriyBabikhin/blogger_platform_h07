@@ -20,13 +20,13 @@ testRegex: "__tests__/.*.e2e.test.ts$",
 }
 ```
 
-Нажимаем `ЛКМ` ➡️ `Cоздать папку` ➡️  `__test__/test-helpers.ts`  
+Нажимаем `ЛКМ` ➡️ `Cоздать папку` ➡️  `__tests__/test-helpers.ts`  
 Вставьте настройки в файл:
 
 ```ts
-import {app} from '../src/app'
-import {agent} from 'supertest'
- 
+import {agent} from 'supertest';
+import {app} from "../app";
+
 export const req = agent(app)
 ```
 
