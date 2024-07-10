@@ -11,7 +11,7 @@ describe('/blogs', () => {
 
     //Проверка get-blogs
     it('Should return empty array and status 200', async () => {
-        const res = await req
+        await req
             .get(SETTINGS.PATH.BLOGS)
             .expect(200, [])
         //console.log('Must return the video:', res.body)
@@ -154,7 +154,7 @@ describe('/blogs', () => {
             .expect(401, {error: 'Authentication required'})
 
         //создаем валидный объект с неверным логином/паролем
-        const res = await req
+        await req
             .post(SETTINGS.PATH.BLOGS)
             .set('Authorization', 'Basic ' + codedAuth + '1234')//req.headers['authorization'] = Basic YWRtaW46cXdlcnR5
             .send({
@@ -191,7 +191,7 @@ describe('/blogs', () => {
         }
 
         //Обновить объект валидными данными
-        const res = await req
+        await req
             .put(SETTINGS.PATH.BLOGS + '/' + createBlog1.id)
             .set('Authorization', 'Basic ' + codedAuth)//req.headers['authorization'] = Basic YWRtaW46cXdlcnR5
             .send(updateData)
@@ -261,7 +261,7 @@ describe('/blogs', () => {
             .expect(401, {error: 'Authentication required'})
 
         //создаем валидный объект с неверным логином/паролем
-        const res = await req
+        await req
             .put(SETTINGS.PATH.BLOGS + '/' + createBlog1.id)
             .set('Authorization', 'Basic ' + codedAuth + '1234')//req.headers['authorization'] = Basic YWRtaW46cXdlcnR5
             .send({
