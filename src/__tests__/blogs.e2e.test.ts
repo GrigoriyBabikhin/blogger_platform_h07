@@ -1,4 +1,4 @@
-import {req} from "./test-helpers";
+import {req} from "./helpers/test-helpers";
 import {SETTINGS} from "../settings";
 import {codedAuth, createdString, updateBlogs} from "./helpers/data-test";
 
