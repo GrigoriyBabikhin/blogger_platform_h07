@@ -259,7 +259,7 @@ describe('/posts', () => {
     })
 
     //status 404 Not Found
-    it.skip('Should return status 404 Not Found, when deleting posts', async () => {
+    it('Should return status 404 Not Found, when deleting posts', async () => {
         //Удалить не существующий объект
         await req
             .delete(SETTINGS.PATH.POSTS + '/1212')
