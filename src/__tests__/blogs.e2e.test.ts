@@ -1,6 +1,6 @@
 import {req} from "./test-helpers";
 import {SETTINGS} from "../settings";
-import {codedAuth, createdString} from "./helpers/data-test";
+import {codedAuth, createdString, updateBlogs} from "./helpers/data-test";
 
 
 describe('/blogs', () => {
@@ -14,7 +14,6 @@ describe('/blogs', () => {
         await req
             .get(SETTINGS.PATH.BLOGS)
             .expect(200, [])
-        //console.log('Must return the video:', res.body)
     })
 
     //создали переменную для того чтобы другие тесты смогли к ней обращаться.
@@ -134,9 +133,8 @@ describe('/blogs', () => {
             .get(SETTINGS.PATH.BLOGS)
             .expect(200)
 
-        console.log(getRes)
         //Т.к я раннее в тесте обновил createBlog1,
-        // проверка записал ли я данные в глобальную переменную.
+        //проверка записал ли я данные в глобальную переменную.
         expect([createBlog1, createBlog2]).toEqual(getRes.body)
     })
 
@@ -184,17 +182,12 @@ describe('/blogs', () => {
     //Проверка put
     //status 204
     it('Should return status 204 if the update data is valid', async () => {
-        const updateData = {
-            "name": "New string",
-            "description": "New string",
-            "websiteUrl": "https://lP6l1u4Pwjtkp-z4Uv4sK6A0.7yyQTRFBja9C.LK5hDVMX5K-dfu54-4AoNS8Yjyb2EJaaXW5NQaSxVIr2eFtQcRyNce"
-        }
 
         //Обновить объект валидными данными
         await req
             .put(SETTINGS.PATH.BLOGS + '/' + createBlog1.id)
             .set('Authorization', 'Basic ' + codedAuth)//req.headers['authorization'] = Basic YWRtaW46cXdlcnR5
-            .send(updateData)
+            .send(updateBlogs)
             .expect(204)
 
         //проверим что наши свойства объекта создались правильно.
@@ -208,7 +201,7 @@ describe('/blogs', () => {
             })
 
         //обновляем createBlog1 c новыми данными.
-        createBlog1 = {...createBlog1, ...updateData}
+        createBlog1 = {...createBlog1, ...updateBlogs}
 
         //запросить данные через get id
         const newBlog = await req
@@ -272,5 +265,14 @@ describe('/blogs', () => {
             .expect(401, {error: 'wrong login or password'})
     })
 
+    //status 404 Not Found
+    it('Must return, 404 Not Found', async () => {
+
+        await req
+            .put(SETTINGS.PATH.BLOGS + '/1212')
+            .set('Authorization', 'Basic ' + codedAuth)//req.headers['authorization'] = Basic YWRtaW46cXdlcnR5
+            .send(updateBlogs)
+            .expect(404)
+    })
 })
 
