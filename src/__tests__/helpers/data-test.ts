@@ -1,6 +1,6 @@
 import {codedAuthBase64} from "../../global-middiewares/adminAuthentication";
 import {SETTINGS} from "../../settings";
-import {PostInputModel, PostViewModel} from "../../input-output-types/post-types";
+import {PostInputModel} from "../../input-output-types/post-types";
 import {BlogInputModel} from "../../input-output-types/blogs-types";
 
 export const createdString = (length: number) => {
