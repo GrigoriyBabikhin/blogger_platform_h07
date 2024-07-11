@@ -274,5 +274,53 @@ describe('/blogs', () => {
             .send(updateBlogs)
             .expect(404)
     })
+
+    //Проверка delete
+    //status 204
+    it('Should return status 204, upon successful delete', async () => {
+        //Удалить объект
+        await req
+            .delete(SETTINGS.PATH.BLOGS + '/' + createBlog1.id)
+            .set('Authorization', 'Basic ' + codedAuth)//req.headers['authorization'] = Basic YWRtaW46cXdlcnR5
+            .expect(204)
+
+        //пробуем найти наш блог
+        await req
+            .get(SETTINGS.PATH.BLOGS + '/' + createBlog1.id)
+            .expect(404)
+
+        //проверяем массив должен остаться 1 объект
+        await req
+            .get(SETTINGS.PATH.BLOGS)
+            .expect(200, [createBlog2])
+
+    })
+
+    //status 401 Unauthorized
+    it('Should return status 401 Unauthorized, when deleting', async () => {
+        //Удалить объект
+        await req
+            .delete(SETTINGS.PATH.BLOGS + '/' + createBlog2.id)
+            .expect(401)
+        //проверяем массив должен остаться 1 объект.
+        await req
+            .get(SETTINGS.PATH.BLOGS)
+            .expect(200, [createBlog2])
+
+    })
+
+    //status 404 Not Found
+    it('Should return status 404 Not Found, when deleting', async () => {
+        //Удалить объект
+        await req
+            .delete(SETTINGS.PATH.BLOGS + '/1212')
+            .set('Authorization', 'Basic ' + codedAuth)//req.headers['authorization'] = Basic YWRtaW46cXdlcnR5
+            .expect(404)
+        //проверяем массив должен остаться 1 объект
+        await req
+            .get(SETTINGS.PATH.BLOGS)
+            .expect(200, [createBlog2])
+
+    })
 })
 
