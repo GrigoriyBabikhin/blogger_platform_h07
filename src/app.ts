@@ -18,3 +18,8 @@ app.delete('/__test__/blogs', (req, res) => {
     db.blogs = [];
     res.status(204).json()
 })
+
+app.delete('/__test__/posts', (req, res) => {
+    db.posts = [];
+    res.status(204).json()
+})
