@@ -212,7 +212,6 @@ describe('/posts', () => {
             .expect(200)
         //сравнить полученные данные с переменной для тестов.
         expect(newBlog.body).toEqual(createPosts2temp)
-        console.log(newBlog.body)
     })
 
     //status 404 Not Found
