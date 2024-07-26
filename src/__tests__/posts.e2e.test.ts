@@ -78,7 +78,7 @@ describe('/posts', () => {
                 "title": createdString(31),
                 "shortDescription": createdString(101),
                 "content": createdString(1001),
-                "blogId": "1212"
+                "blogId": 1212
             }).expect(400)
 
         //Проверяем только field с указанием ошибки.
