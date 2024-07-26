@@ -4,13 +4,13 @@ import {db} from "../../db/db";
 
 export const blogsRepository = {
     //get
-    getAll(): BlogsDbType[] {
+    async getAll(): Promise<BlogsDbType[]> {
         return db.blogs
     },
 
     //post
     //(): Type указывает на тип значения, которое возвращает функция.
-    create(blog: BlogInputModel): BlogsDbType {
+    async create(blog: BlogInputModel): Promise<BlogsDbType> {
         const {name, description, websiteUrl} = blog
         //newBlog в единственном числе так как создаем 1 блог.
         const newBlog: BlogsDbType = {
@@ -27,12 +27,12 @@ export const blogsRepository = {
     },
 
     //getById
-    findBlogById(blogId: string): BlogViewModel | undefined {
+    async findBlogById(blogId: string): Promise<BlogViewModel | undefined> {
         return db.blogs.find(b => b.id === blogId)
     },
 
     // put
-    updateBlog(blogId: string, blog: BlogInputModel): boolean {
+   async updateBlog(blogId: string, blog: BlogInputModel): Promise<boolean> {
 
         const blogToUpdate = db.blogs.find(b => b.id === blogId)
 
@@ -49,7 +49,7 @@ export const blogsRepository = {
     },
 
     //delete
-    deleteBlog(blogId: string): boolean {
+    async deleteBlog(blogId: string): Promise<boolean> {
         const blog = db.blogs.find(b => b.id === blogId)
         if (blog) {
             db.blogs = db.blogs.filter(b => b.id !== blogId)

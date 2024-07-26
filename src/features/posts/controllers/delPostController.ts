@@ -3,11 +3,11 @@ import {PostsDbType} from "../../../db/dbType/post-db-type";
 import {db} from "../../../db/db";
 import {postsRepository} from "../postsRepository";
 
-export const delPostController = (
+export const delPostController = async (
     req:Request<{postId: string}>,
     res:Response,)=>{
 
-    const isDeleted = postsRepository.deletePost(req.params.postId)
+    const isDeleted = await postsRepository.deletePost(req.params.postId)
 
     if(isDeleted){
         res.status(204).json()
@@ -15,12 +15,4 @@ export const delPostController = (
         res.status(404).json()
     }
 
-    // const postId: string = req.params.postId
-    // const post: PostsDbType | undefined = db.posts.find(p => p.id === postId)
-    // if (!post) {
-    //     res.status(404).json()
-    //     return
-    // }
-    // db.posts = db.posts.filter(p => p.id !== postId)
-    // res.status(204).json()
 }

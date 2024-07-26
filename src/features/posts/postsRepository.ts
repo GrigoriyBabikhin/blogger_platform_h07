@@ -3,11 +3,11 @@ import {db} from "../../db/db";
 import {PostInputModel, PostViewModel} from "../../input-output-types/post-types";
 
 export const postsRepository = {
-    getAll(): PostsDbType[] {
+    async getAll(): Promise<PostsDbType[]> {
         return db.posts
     },
 
-    create(posts: PostInputModel): PostsDbType {
+    async create(posts: PostInputModel): Promise<PostsDbType> {
         const {title, shortDescription, content, blogId} = posts
 
         const newPost: PostsDbType = {
@@ -22,11 +22,11 @@ export const postsRepository = {
         return newPost
     },
 
-    findPostById(postId: string): PostViewModel | undefined {
+    async findPostById(postId: string): Promise<PostViewModel | undefined> {
         return db.posts.find(p => p.id === postId)
     },
 
-    updatePost(postId: string, post: PostInputModel): boolean {
+    async updatePost(postId: string, post: PostInputModel): Promise<boolean> {
 
         const postToUpdate = db.posts.find(p => p.id === postId)
 
@@ -43,7 +43,7 @@ export const postsRepository = {
         }
     },
 
-    deletePost(postId: string): boolean {
+    async deletePost(postId: string): Promise<boolean> {
 
         const post: PostsDbType | undefined = db.posts.find(p => p.id === postId)
         if (post) {

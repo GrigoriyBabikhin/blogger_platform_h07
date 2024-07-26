@@ -12,8 +12,8 @@ export const postInputValidations = () => {
 
 export const blogIdValidation = body('blogId')
     .isString().withMessage({message: 'There should be a string', field: 'blogId'})
-    .trim().custom(blogId => {
-        const blog = blogsRepository.findBlogById(blogId)
+    .trim().custom(async blogId => {
+        const blog = await blogsRepository.findBlogById(blogId)
         if (!blog) {
             throw new Error()
         } else {

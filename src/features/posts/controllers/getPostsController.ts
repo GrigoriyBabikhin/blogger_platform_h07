@@ -3,9 +3,9 @@ import {PostViewModel} from "../../../input-output-types/post-types";
 import {db} from "../../../db/db";
 import {postsRepository} from "../postsRepository";
 
-export const getPostsController = (
+export const getPostsController = async (
     req: Request,
     res: Response<PostViewModel[]>) => {
-    const posts = postsRepository.getAll()
+    const posts = await postsRepository.getAll()
     res.status(200).json(posts)
 }
