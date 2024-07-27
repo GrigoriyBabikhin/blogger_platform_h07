@@ -3,6 +3,7 @@ import {config} from 'dotenv'
 config() // добавление переменных из файла .env в process.env
 
 export const SETTINGS = {
+    MONGO_URL: process.env.MONGO_URL || "mongodb+srv://grigoriybabikhin:Bloger.03@cluster0.2ee3ewa.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
     PORT: process.env.PORT || 3003,
     PATH: {
         TESTINGBLOGS: '/__test__/blogs',
@@ -10,7 +11,11 @@ export const SETTINGS = {
         BLOGS: '/blogs',
         POSTS: '/posts'
     },
-    ADMIN_AUTH: 'admin:qwerty'
+    ADMIN_AUTH: 'admin:qwerty',
+    DB_NAME: "Blogger-Platform",
+    BLOG_COLLECTION_NAME: 'blogCollection',
+    POST_COLLECTION_NAME: 'postCollection'
+
 }
 //admin\qwerty
 //"/testing/all-data"
