@@ -1,12 +1,14 @@
 import {body} from "express-validator";
-import {blogsRepository} from "../blogs/blogsRepository";
+import {inputCheckErrorsMiddleware} from "../../global-middiewares/inputCheckErrorsMiddleware";
+import {blogsRepository} from "../blogs/blogsMongoRepository";
 
 export const postInputValidations = () => {
     return [
         titleValidation,
         shortDescriptionValidation,
         contentValidation,
-        blogIdValidation
+        blogIdValidation,
+        inputCheckErrorsMiddleware,
     ]
 }
 

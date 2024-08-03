@@ -1,6 +1,6 @@
 import {Request, Response} from "express";
 import {PostViewModel} from "../../../input-output-types/post-types";
-import {postsRepository} from "../postsRepository";
+import {postsRepository} from "../postsMongoRepository";
 
 export const getPostsController = async (
     req: Request,

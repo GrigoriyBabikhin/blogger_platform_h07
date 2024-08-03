@@ -1,8 +1,9 @@
 import {Request, Response} from "express";
-import {db} from "../../db/db";
+import {blogsRepository} from "../blogs/blogsMongoRepository";
+import {postsRepository} from "../posts/postsMongoRepository";
 
-export const delTestingController = (req: Request, res: Response) => {
-    db.blogs.length = 0
-    db.posts.length = 0;
+export const delTestingController = async (req: Request, res: Response) => {
+    await blogsRepository.deleteALL()
+    await postsRepository.deleteALL()
     res.status(204).json()
 }

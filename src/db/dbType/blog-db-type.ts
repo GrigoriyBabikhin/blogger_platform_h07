@@ -1,8 +1,10 @@
 //Типизируем BD
 export type BlogsDbType = {
     id: string
-    name: string // max 15
-    description: string // max 500
-    "websiteUrl": string // max 100 ^https://([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$
+    name: string
+    description: string
+    websiteUrl: string
+    createdAt: string//($date-time)
+    isMembership: boolean //True if user has not expired membership subscription to blog
 }
 
