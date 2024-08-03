@@ -1,5 +1,5 @@
 import {Request, Response} from "express";
-import {BlogInputModel, BlogViewModel} from "../../../input-output-types/blogs-types";
+import {BlogInputModel} from "../../../input-output-types/blogs-types";
 import {blogsRepository} from "../blogsMongoRepository";
 
 export const putBlogController = async (

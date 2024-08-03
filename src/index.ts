@@ -1,8 +1,6 @@
 import {app} from './app'
 import {SETTINGS} from './settings'
-import {run} from "jest";
 import {connectToDB} from "./db/mongo-db";
-import {blogsRepository} from "./features/blogs/blogsMongoRepository";
 
 
 const startApp = async () => {

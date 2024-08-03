@@ -36,7 +36,7 @@ export const postsRepository = {
     async findPostById(postId: string): Promise<PostsDbType | null> {
         let post = await postCollection.findOne({id: postId}, findViewPostOptions)
         if (post) {
-            return post
+            return post as PostsDbType
         } else {
             return null
         }

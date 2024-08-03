@@ -1,7 +1,6 @@
 import {Request, Response} from "express";
 import {BlogViewModel} from "../../../input-output-types/blogs-types";
 import {blogsRepository} from "../blogsMongoRepository";
-import {BlogsDbType} from "../../../db/dbType/blog-db-type";
 
 export const findBlogController = async (
     req: Request<{ blogId: string }>,
