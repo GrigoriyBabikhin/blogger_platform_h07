@@ -4,7 +4,7 @@ import {postsRepository} from "../postsMongoRepository";
 
 export const getPostsController = async (
     req: Request,
-    res: Response<PostViewModel[]>) => {
-    const posts = await postsRepository.getAll()
+    res: Response<PostViewModel[] | null>) => {
+    const posts = await postsRepository.mapAndGetAll()
     res.status(200).json(posts)
 }

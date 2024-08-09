@@ -6,7 +6,7 @@ export const findPostController = async (
     req: Request<{ postId: string }>,
     res: Response<PostViewModel>,
 ) => {
-    const post = await postsRepository.findPostById(req.params.postId)
+    const post = await postsRepository.mapAndFindPostById(req.params.postId)
     if (!post) {
         res.status(404).json()
         return

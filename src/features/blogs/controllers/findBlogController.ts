@@ -6,7 +6,7 @@ export const findBlogController = async (
     req: Request<{ blogId: string }>,
     res: Response<BlogViewModel>
 ) => {
-    let blog = await blogsRepository.findBlogById(req.params.blogId)
+    let blog = await blogsRepository.mapAndFindBlogById(req.params.blogId)
     if (!blog) {
         res.status(404).json()
         return

@@ -50,15 +50,35 @@ await blogCollection.insertOne(newBlog,{forceServerObjectId: true})
 ```
 - Замапить поля 
 ```ts
-    async map(blog: BlogsDbType): Promise<BlogViewModel> {
-    const blogForView: BlogViewModel = {
-    id: blog.id,
-    name: blog.name,
-    description: blog.description,
-    websiteUrl: blog.websiteUrl,
-    createdAt: blog.createdAt,
-    isMembership: blog.isMembership
-}
-return blogForView
+ async mapAndFindBlogById(blogId: string): Promise<BlogViewModel | null> {
+    const blog = await this.findBlogById(blogId)
+    if (blog) {
+        return {
+            id: blog._id.toString(),
+            name: blog.name,
+            description: blog.description,
+            websiteUrl: blog.websiteUrl,
+            createdAt: blog.createdAt,
+            isMembership: blog.isMembership
+        }
+    } else {
+        return null
+    }
 },
+
+    async mapAndGetAll(): Promise<BlogViewModel[] | null> {
+    const blog = await this.getAll()
+    if (blog) {
+        return blog.map(blog => ({
+            id: blog._id.toString(),
+            name: blog.name,
+            description: blog.description,
+            websiteUrl: blog.websiteUrl,
+            createdAt: blog.createdAt,
+            isMembership: blog.isMembership
+        }))
+    } else {
+        return null
+    }
+}
 ```
