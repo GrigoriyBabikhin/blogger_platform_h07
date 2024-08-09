@@ -1,6 +1,5 @@
 //Типизируем BD
 export type BlogsDbType = {
-    id: string
     name: string
     description: string
     websiteUrl: string
