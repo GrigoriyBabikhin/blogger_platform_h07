@@ -1,7 +1,6 @@
 import {codedAuthBase64} from "../../global-middiewares/adminAuthentication";
 import {SETTINGS} from "../../settings";
-import {PostInputModel} from "../../input-output-types/post-types";
-import {BlogInputModel, BlogViewModel} from "../../input-output-types/blogs-types";
+import {BlogInputModel} from "../../input-output-types/blogs-types";
 
 export const createdString = (length: number) => {
     return 'a'.repeat(length)
@@ -22,7 +21,6 @@ export const updateBlogs: BlogInputModel = {
     "websiteUrl": "https://lP6l1u4Pwjtkp-z4Uv4sK6A0.7yyQTRFBja9C.LK5hDVMX5K-dfu54-4AoNS8Yjyb2EJaaXW5NQaSxVIr2eFtQcRyNce"
 }
 
-let blog1;
 export const updatePost = {
     "title": "updatePost",
     "shortDescription": "updatePost",
@@ -38,11 +36,11 @@ export const createPost = {
 }
 
 
-const blog3: BlogViewModel = {
-    id: '66b8973ceb87400953ab69bf',
-    name: 'string',
-    description: 'string',
-    websiteUrl: 'https://lP6l1u4Pwjtkp-z4Uv4sK6A0.7yyQTRFBja9C.LK5hDVMX5K-dfu54-4AoNS8Yjyb2EJaaXW5NQaSxVIr2eFtQcRyNce',
-    createdAt: '2024-08-11T10:49:32.477Z',
-    isMembership: false
-}
+// const blog3: BlogViewModel = {
+//     id: '66b8973ceb87400953ab69bf',
+//     name: 'string',
+//     description: 'string',
+//     websiteUrl: 'https://lP6l1u4Pwjtkp-z4Uv4sK6A0.7yyQTRFBja9C.LK5hDVMX5K-dfu54-4AoNS8Yjyb2EJaaXW5NQaSxVIr2eFtQcRyNce',
+//     createdAt: '2024-08-11T10:49:32.477Z',
+//     isMembership: false
+// }
