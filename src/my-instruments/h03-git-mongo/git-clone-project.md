@@ -1,11 +1,11 @@
 # Клонировать проект в новый репозиторий на GitHub.
-1. Создаем локальную папку и называем ее также как удаленный репозиторий.
-2. Открываем папку в IDE ➡️ терминал 
-    - Укажи путь к целевой папке, репозиторий будет клонирован напрямую в указанную папку.
+1. Создаем локальную папку и пустой git репозиторий называем ее также как удаленный репозиторий.
+2. Открываем папку в IDE ➡️ терминал  
+   ! Укажи путь к целевой папке, репозиторий будет клонирован напрямую в указанную папку.
 ```bash
 git clone https://github.com/GrigoriyBabikhin/blogger_platform_h02.git C:\Backend\Git\01_course_backend-it-incubator\blogger_platform_h03
  ```
-3. Создать новый репозиторий на GitHub.
+3. Создать новую ветку на GitHub.
 ```shell
 git remote add new-origin https://github.com/GrigoriyBabikhin/blogger_platform_h03.git
 ```
@@ -37,4 +37,8 @@ git remote -v
 ```
 origin  https://github.com/GrigoriyBabikhin/blogger_platform_h03.git (fetch)
 origin  https://github.com/GrigoriyBabikhin/blogger_platform_h03.git (push)
+```
+7. Все готово осталось установить зависимости из папки yarn.lock.
+```shell
+yarn install
 ```
