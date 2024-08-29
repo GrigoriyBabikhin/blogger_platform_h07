@@ -82,3 +82,15 @@ await blogCollection.insertOne(newBlog,{forceServerObjectId: true})
     }
 }
 ```
+
+- найти или название или цена { price: { $gte: minPrice, $lte: maxPrice }
+```ts
+const result = await ordersCollection.find(
+    {$or: [
+            {productTitle: 'IPhone X'},
+            {productPrice: {$lte: 1600}}
+        ]}
+).toArray()
+console.log(result)
+}
+```
