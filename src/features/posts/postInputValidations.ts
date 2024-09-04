@@ -1,6 +1,7 @@
 import {body} from "express-validator";
 import {inputCheckErrorsMiddleware} from "../../global-middiewares/inputCheckErrorsMiddleware";
-import {blogsRepository} from "../blogs/blogsMongoRepository";
+import {blogsService} from "../blogs/blogs-service";
+
 
 export const postInputValidations = () => {
     return [
@@ -15,7 +16,7 @@ export const postInputValidations = () => {
 export const blogIdValidation = body('blogId')
     .isString().withMessage({message: 'There should be a string', field: 'blogId'})
     .trim().custom(async blogId => {
-        const blog = await blogsRepository.findBlogById(blogId)
+        const blog = await blogsService.findBlogById(blogId)
         if (!blog) {
             throw new Error()
         } else {

@@ -1,10 +1,11 @@
 import {Request, Response} from "express";
-import {blogsRepository} from "../blogsMongoRepository";
+import {blogsService} from "../blogs-service";
+
 
 export const delBlogController = async (
     req: Request<{blogId: string}>,
     res: Response) => {
-    const isDeleted = await blogsRepository.deleteBlog(req.params.blogId)
+    const isDeleted = await blogsService.deleteBlog(req.params.blogId)
 
     if(isDeleted){
         res.status(204).json()
