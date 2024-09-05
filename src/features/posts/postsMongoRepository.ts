@@ -1,4 +1,4 @@
-import {PostsDbType} from "../../db/dbType/post-db-type";
+import {PostsDbType} from "./post-type";
 import {PostInputModel, PostViewModel,} from "../../input-output-types/post-types";
 import {postCollection} from "../../db/mongo-db";
 import {ObjectId, WithId} from "mongodb";
