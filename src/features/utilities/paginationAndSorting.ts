@@ -31,12 +31,12 @@ const paginationAndSortingQuery = (query: SortingQueryField): SortingQueryFilter
     //Явная проверка на то что из query прилетит "ASC" если нет то по дефолту. при компиляции в js типизация слетит.
     const sortDirection = query.sortDirection === "ASC" ? SortDirection.ASC : SortDirection.DESC
     const searchNameTerm = query.searchNameTerm ? query.searchNameTerm : null
-    const result = {
+    return  {
         pageNumber,
         pageSize,
         sortBy,
         sortDirection,
         searchNameTerm
     }
-    return result;
+
 }
