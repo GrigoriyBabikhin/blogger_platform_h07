@@ -1,4 +1,4 @@
-import {BlogInputModel, BlogViewModel} from "../../input-output-types/blogs-types";
+import {BlogInputModel} from "../../input-output-types/blogs-types";
 import {BlogsDbType} from "./blog-type";
 import {blogCollection} from "../../db/mongo-db";
 import {InsertOneResult, ObjectId, WithId} from "mongodb";

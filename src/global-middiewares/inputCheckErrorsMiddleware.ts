@@ -10,7 +10,8 @@ export const inputCheckErrorsMiddleware = (
         const e = validationResult(req);
         const errors = e.array({onlyFirstError: true});
         if (errors.length) {
-            const formattedErrors: FieldError[] =  errors.map(i => i.msg)
+            const formattedErrors: FieldError[] = errors.map(i => i.msg)
+
             const errorResponse: APIErrorResult = {
                 errorsMessages: formattedErrors.length ? formattedErrors : null
             }

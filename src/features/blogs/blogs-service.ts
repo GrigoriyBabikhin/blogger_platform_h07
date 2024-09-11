@@ -4,16 +4,7 @@ import {InsertOneResult, ObjectId, WithId} from "mongodb";
 import {blogsRepository} from "./blogsMongoRepository";
 
 
-export const mapBlogToView = (blog: WithId<BlogsDbType>): BlogViewModel => {
-    return {
-        id: blog._id.toString(),
-        name: blog.name,
-        description: blog.description,
-        websiteUrl: blog.websiteUrl,
-        createdAt: blog.createdAt,
-        isMembership: blog.isMembership
-    }
-}
+
 
 export const blogsService = {
     async getAll(): Promise<WithId<BlogsDbType>[]> {
@@ -70,22 +61,6 @@ export const blogsService = {
        return await blogsRepository.deleteALL()
     },
 
-    async mapAndFindBlogById(blogId: string): Promise<BlogViewModel | null> {
-        const blog = await this.findBlogById(blogId)
-        if (blog) {
-            return mapBlogToView(blog)
-        } else {
-            return null
-        }
-    },
 
-    async mapAndGetAll(): Promise<BlogViewModel[] | null> {
-        const blog = await this.getAll()
-        if (blog) {
-            return blog.map(mapBlogToView)
-        } else {
-            return null
-        }
-    }
 }
 
