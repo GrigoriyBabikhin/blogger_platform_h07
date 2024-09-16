@@ -1,6 +1,6 @@
 import {Collection, Db, MongoClient} from "mongodb";
 import {SETTINGS} from "../settings";
-import {BlogsDbType} from "../features/blogs/blog-type";
+import {BlogsDbType} from "../features/blogs/blogs-type";
 import {PostsDbType} from "../features/posts/post-type";
 
 export const client: MongoClient = new MongoClient(SETTINGS.MONGO_URL)

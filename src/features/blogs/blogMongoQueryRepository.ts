@@ -1,5 +1,5 @@
-import {WithId} from "mongodb";
-import {BlogsDbType} from "./blog-type";
+import {InsertOneResult, ObjectId, WithId} from "mongodb";
+import {BlogsDbType} from "./blogs-type";
 import {BlogViewModel} from "../../input-output-types/blogs-types";
 import {Paginator} from "../../input-output-types/paginator-type";
 import {getPaginationAndSortOptions, SortingQueryField, SortingQueryFilter} from "../utilities/paginationAndSorting";
@@ -39,6 +39,24 @@ export const blogMongoQueryRepository = {
             'totalCount': totalCount,
             'items': allBlogs.map(mapBlogToView)
         }
+    },
+    // async findBlogById(blogId: string): Promise<BlogViewModel> {
+    //     let blog = await blogCollection.findOne({_id: new ObjectId(blogId)})
+    //     const mapBlog= await mapBlogToView(blog)
+    //     return mapBlog
+    // },
+
+    async findBlogId(blogId: string): Promise<BlogViewModel | null> {
+        //let blog = await this.findBlogById(createdBlogId)
+        let blog = await blogCollection.findOne({_id: new ObjectId(blogId)})
+        const mapBlog = blog ? await mapBlogToView(blog) : null
+        return mapBlog
+        // if (blog) {
+        //     const newBlog = mapBlogToView(blog)
+        //     return newBlog
+        // } else {
+        //     return null
+        // }
     },
 
     // async mapAndFindBlogById(blogId: string): Promise<BlogViewModel | null> {
