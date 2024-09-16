@@ -1,11 +1,12 @@
-import {body} from "express-validator";
+import {body, param} from "express-validator";
 import {inputCheckErrorsMiddleware} from "../../global-middiewares/inputCheckErrorsMiddleware";
 
-export const blogsInputValidations = () => [
-    nameValidation,
-    descriptionValidation,
-    websiteUrlValidation,
-    inputCheckErrorsMiddleware,
+export const blogsBodyValidations = () => [
+    nameValidation, descriptionValidation, websiteUrlValidation, inputCheckErrorsMiddleware
+]
+
+export const blogsIdValidation = () => [
+    idValidation, inputCheckErrorsMiddleware
 ]
 
 
@@ -24,5 +25,6 @@ export const websiteUrlValidation = body('websiteUrl')
         field: 'websiteUrl'
     })
     .isLength({min: 10, max: 100}).withMessage({message: 'string of 10 to 100 symbol.', field: 'websiteUrl'})
+export const idValidation = param('blogId').isMongoId().withMessage({message: 'Invalid MongoDB ID.', field: 'blogId'})
 
 //Expected data: { errorsMessages: [{ message: Any<String>, field: "websiteUrl" }, { message: Any<String>, field: "name" }] }
