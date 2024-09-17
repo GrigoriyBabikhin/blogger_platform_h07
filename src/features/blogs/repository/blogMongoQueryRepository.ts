@@ -1,9 +1,9 @@
 import {InsertOneResult, ObjectId, WithId} from "mongodb";
-import {BlogsDbType} from "./blogs-type";
-import {BlogViewModel} from "../../input-output-types/blogs-types";
-import {Paginator} from "../../input-output-types/paginator-type";
-import {getPaginationAndSortOptions, SortingQueryField, SortingQueryFilter} from "../utilities/paginationAndSorting";
-import {blogCollection} from "../../db/mongo-db";
+import {BlogsDbType} from "../blogs-type";
+import {BlogViewModel} from "../../../input-output-types/blogs-types";
+import {Paginator} from "../../../input-output-types/paginator-type";
+import {getPaginationAndSortOptions, SortingQueryField, SortingQueryFilter} from "../../utilities/paginationAndSorting";
+import {blogCollection} from "../../../db/mongo-db";
 
 export const mapBlogToView = (blog: WithId<BlogsDbType>): BlogViewModel => {
     return {

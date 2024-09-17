@@ -1,6 +1,6 @@
-import {PostsDbType} from "./post-type";
-import {PostInputModel, PostViewModel,} from "../../input-output-types/post-types";
-import {postCollection} from "../../db/mongo-db";
+import {PostsDbType} from "../post-type";
+import {PostInputModel, PostViewModel,} from "../../../input-output-types/post-types";
+import {postCollection} from "../../../db/mongo-db";
 import {ObjectId, WithId} from "mongodb";
 
 
@@ -98,15 +98,3 @@ export const postsRepository = {
         }
     }
 }
-
-
-// if (result) {
-//     return {
-//         id: result.insertedId.toString(),
-//         title: posts.title,
-//         shortDescription: posts.shortDescription,
-//         content: posts.content,
-//         blogId: posts.blogId,
-//         blogName: "string",
-//         createdAt: new Date().toISOString(),
-//     }
