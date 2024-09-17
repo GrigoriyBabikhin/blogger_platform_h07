@@ -1,6 +1,6 @@
 import {body} from "express-validator";
 import {inputCheckErrorsMiddleware} from "../../global-middiewares/inputCheckErrorsMiddleware";
-import {blogsService} from "../blogs/blogs-service";
+import {blogsService} from "../blogs/3_blogsService";
 
 
 export const postInputValidations = () => {
