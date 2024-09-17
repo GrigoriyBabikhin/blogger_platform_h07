@@ -1,7 +1,7 @@
 import {BlogInputModel, BlogViewModel} from "../../input-output-types/blogs-types";
 import {BlogsDbType} from "./blogs-type";
 import {InsertOneResult, ObjectId, WithId} from "mongodb";
-import {blogsMongoRepository} from "./repository/blogsMongoRepository";
+import {blogsMongoRepository} from "./blogsMongoRepository";
 
 
 export const blogsService = {

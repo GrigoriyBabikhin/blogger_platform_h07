@@ -1,7 +1,7 @@
 import express from 'express'
 import {SETTINGS} from "./settings";
-import {blogsRouter} from "./features/blogs/1_blogsRouter";
-import {postsRouter} from "./features/posts/1_postsRouter";
+import {blogsRouter} from "./features/blogs/blogs-router";
+import {postsRouter} from "./features/posts/posts-router";
 import {testingRouter} from "./features/testing/testing-router";
 
 

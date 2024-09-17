@@ -1,7 +1,7 @@
 import {body, param} from "express-validator";
 import {inputCheckErrorsMiddleware} from "../../global-middiewares/inputCheckErrorsMiddleware";
 
-export const blogsInputValidations = () => [
+export const blogsBodyValidations = () => [
     nameValidation, descriptionValidation, websiteUrlValidation, inputCheckErrorsMiddleware
 ]
 
