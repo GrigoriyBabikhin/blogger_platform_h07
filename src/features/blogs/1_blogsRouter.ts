@@ -1,9 +1,7 @@
 import {Router} from "express";
-import {idValidation, blogsInputValidations, blogsIdValidation} from "./blogsInputValidations";
+import {blogsInputValidations, blogsIdValidation} from "./blogsInputValidations";
 import {adminAuthentication} from "../../global-middiewares/adminAuthentication";
 import {blogsController} from "./2_blogsController";
-import {inputCheckErrorsMiddleware} from "../../global-middiewares/inputCheckErrorsMiddleware";
-
 
 export const blogsRouter = Router({})
 

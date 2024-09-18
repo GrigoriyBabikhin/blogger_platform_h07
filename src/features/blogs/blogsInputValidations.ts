@@ -9,7 +9,6 @@ export const blogsIdValidation = () => [
     idValidation, inputCheckErrorsMiddleware
 ]
 
-
 export const descriptionValidation = body('description')
     .isString().withMessage({message: 'There should be a string', field: 'description'})
     .trim().isLength({min: 3, max: 500}).withMessage({message: 'string of 3 to 500 symbol.', field: 'description'})
@@ -27,4 +26,3 @@ export const websiteUrlValidation = body('websiteUrl')
     .isLength({min: 10, max: 100}).withMessage({message: 'string of 10 to 100 symbol.', field: 'websiteUrl'})
 export const idValidation = param('blogId').isMongoId().withMessage({message: 'Invalid MongoDB ID.', field: 'blogId'})
 
-//Expected data: { errorsMessages: [{ message: Any<String>, field: "websiteUrl" }, { message: Any<String>, field: "name" }] }

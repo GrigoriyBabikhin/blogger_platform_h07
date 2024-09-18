@@ -1,6 +1,6 @@
-import {body} from "express-validator";
+import {body, param} from "express-validator";
 import {inputCheckErrorsMiddleware} from "../../global-middiewares/inputCheckErrorsMiddleware";
-import {blogsService} from "../blogs/3_blogsService";
+import {blogMongoQueryRepository} from "../blogs/repository/blogMongoQueryRepository";
 
 
 export const postInputValidations = () => {
@@ -10,13 +10,16 @@ export const postInputValidations = () => {
         contentValidation,
         blogIdValidation,
         inputCheckErrorsMiddleware,
+    ]}
+
+export const postIdValidation = () => [
+        idValidation, inputCheckErrorsMiddleware
     ]
-}
 
 export const blogIdValidation = body('blogId')
     .isString().withMessage({message: 'There should be a string', field: 'blogId'})
     .trim().custom(async blogId => {
-        const blog = await blogsService.findBlogById(blogId)
+        const blog = await blogMongoQueryRepository.findBlogId(blogId)
         if (!blog) {
             throw new Error()
         } else {
@@ -35,4 +38,6 @@ export const shortDescriptionValidation = body('shortDescription')
 export const contentValidation = body('content')
     .isString().withMessage({message: 'There should be a string', field: 'content'})
     .trim().isLength({min: 3, max: 1000}).withMessage({message: 'string of 3 to 1000 symbol.', field: 'content'})
+
+export const idValidation = param('postId').isMongoId().withMessage({message: 'Invalid MongoDB ID.', field: 'postId'})
 

@@ -1,57 +1,49 @@
 import {Request, Response} from "express";
 import {PostInputModel, PostViewModel} from "../../input-output-types/post-types";
-import {postsRepository} from "./repsitory/postsMongoRepository";
 import {SortingQueryField} from "../utilities/paginationAndSorting";
 import {postsMongoQueryRepository} from "./repsitory/postsMongoQueryRepository";
 import {Paginator} from "../../input-output-types/paginator-type";
+import {postsService} from "./3_postsServese";
 
 export const postsController = {
-     async getAllPosts (
+    async getAllPosts(
         req: Request<any, any, any, SortingQueryField>,
-        res: Response<Paginator<PostViewModel[]> | null>)  {
+        res: Response<Paginator<PostViewModel[]> | null>) {
         const posts = await postsMongoQueryRepository.getAllPosts(req.query)
-        res.status(200).json(posts)
+        return res.status(200).json(posts)
     },
 
-     async createPost (
+    async createPost(
         req: Request<any, any, PostInputModel>,
-        res: Response<PostViewModel>,)  {
-        const newPosts = await postsRepository.create(req.body)
-        res.status(201).json(newPosts)
+        res: Response<PostViewModel | null>,) {
+        const newPosts = await postsService.createPost(req.body)
+        if (!newPosts) return res.status(400).json()
+        const mapPost = await postsMongoQueryRepository.findPostById(newPosts)
+        return res.status(201).json(mapPost)
     },
 
-     async getPostById (
+    async getPostById(
         req: Request<{ postId: string }>,
-        res: Response<PostViewModel>,)  {
-        const post = await postsRepository.mapAndFindPostById(req.params.postId)
-        if (!post) {
-            res.status(404).json()
-            return
-        }
-        res.status(200).json(post)
-        return
+        res: Response<PostViewModel | null>,) {
+        const post = await postsMongoQueryRepository.findPostById(req.params.postId)
+        if (!post) return res.status(404).json()
+        return res.status(200).json(post)
     },
 
-     async updatePost (
+    async updatePost(
         req: Request<{ postId: string }, any, PostInputModel>,
-        res: Response,)  {
-        const isUpdated = await postsRepository.updatePost(req.params.postId, req.body)
-        if (!isUpdated) {
-            res.status(404).json()
-        } else {
-            res.status(204).json()
-        }
+        res: Response,) {
+        const isUpdated = await postsService.updatePost(req.params.postId, req.body)
+        if (!isUpdated) return res.status(404).json()
+        return res.status(204).json()
     },
 
-     async deletePost (
-        req:Request<{postId: string}>,
-        res:Response) {
-        const isDeleted = await postsRepository.deletePost(req.params.postId)
-        if(isDeleted){
-            res.status(204).json()
-        } else {
-            res.status(404).json()
-        }
+    async deletePost(
+        req: Request<{ postId: string }>,
+        res: Response) {
+        const isDeleted = await postsService.deletePost(req.params.postId)
+        if (isDeleted) return res.status(204).json()
+        return res.status(404).json()
     },
 }
 
