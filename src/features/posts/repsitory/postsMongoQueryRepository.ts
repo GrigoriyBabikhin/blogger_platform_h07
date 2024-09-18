@@ -41,7 +41,7 @@ export const postsMongoQueryRepository = {
 
     async findPostById(postId: string): Promise<PostViewModel | null> {
         let post = await postCollection.findOne({_id: new ObjectId(postId)})
-        const mapPost = post ? await mapPostToView(post) : null
-        return mapPost
+        return post ? await mapPostToView(post) : null
+
     },
 }

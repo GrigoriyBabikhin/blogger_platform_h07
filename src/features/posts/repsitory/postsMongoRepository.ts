@@ -36,7 +36,6 @@ export const postsMongoRepository = {
     },
 
     async deleteALL() {
-        const result = await postCollection.drop()
-        return result
+        return await postCollection.drop()
     },
 }

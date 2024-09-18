@@ -3,7 +3,7 @@ import {blogCollection} from "../../../db/mongo-db";
 import {ObjectId} from "mongodb";
 
 export const blogsMongoRepository = {
-    async createBlog(blogInput: BlogInputModel): Promise<string | null>{
+    async createBlog(blogInput: BlogInputModel): Promise<string | null> {
         const newBlog = {
             name: blogInput.name,
             description: blogInput.description,
@@ -37,8 +37,8 @@ export const blogsMongoRepository = {
     },
 
     async deleteALL(): Promise<boolean> {
-        const result = await blogCollection.drop()
-        return result
+        return await blogCollection.drop()
+
     },
 }
 
