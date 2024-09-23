@@ -17,6 +17,7 @@ export const mapBlogToView = (blog: WithId<BlogsDbType>): BlogViewModel => {
 }
 
 export const blogMongoQueryRepository = {
+
     async getAllBlogs(query: SortingQueryField): Promise<Paginator<BlogViewModel[]>> {
         const processedQuery = getPaginationAndSortOptions(query);
         const filter = processedQuery.searchNameTerm
