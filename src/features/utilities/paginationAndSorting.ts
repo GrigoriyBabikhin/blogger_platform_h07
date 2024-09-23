@@ -24,7 +24,6 @@ export type SortingQueryFilter = {
 
 
 export const getPaginationAndSortOptions = (query: SortingQueryField): SortingQueryFilter => {
-    console.log(query)
     const pageNumber =  Number(query.pageNumber) || 1
     const pageSize = Number(query.pageSize) || 10
     const sortBy = query.sortBy || 'CreatedAt'
