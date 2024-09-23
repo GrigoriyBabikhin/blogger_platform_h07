@@ -4,6 +4,8 @@ import {Paginator} from "../../input-output-types/paginator-type";
 import {BlogInputModel, BlogViewModel} from "../../input-output-types/blogs-types";
 import {blogMongoQueryRepository} from "./repository/blogMongoQueryRepository";
 import {blogsService} from "./3_blogsService";
+import {postsMongoQueryRepository} from "../posts/repsitory/postsMongoQueryRepository";
+import {PostViewModel} from "../../input-output-types/post-types";
 
 
 export const blogsController = {
@@ -21,6 +23,15 @@ export const blogsController = {
         if (createdBlog === null) return res.status(404).json()
         const mapBlog = await blogMongoQueryRepository.findBlogId(createdBlog)
         return res.status(201).json(mapBlog)
+    },
+
+    async getPostsByBlogId(
+        req: Request<{ blogId: string }, any, any, SortingQueryField>,
+        res: Response<Paginator<PostViewModel[]> | null>,) {
+        const blog = await blogsService.findBlogId(req.params.blogId)
+        if(blog === null) return res.status(404).json()
+        const PostsByBlogId = await postsMongoQueryRepository.getPostsByBlogId(req.params.blogId, req.query)
+        return res.status(200).json(PostsByBlogId)
     },
 
     async getBlogById(
