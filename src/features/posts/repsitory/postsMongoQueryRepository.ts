@@ -39,6 +39,26 @@ export const postsMongoQueryRepository = {
         }
     },
 
+    async getPostsByBlogId(blogId: string, query: SortingQueryField): Promise<Paginator<PostViewModel[]>> {
+        const processedQuery = getPaginationAndSortOptions(query)
+        const filter = {blogId: blogId}
+        const allPosts = await postCollection
+            .find(filter)
+            .sort(processedQuery.sortBy, processedQuery.sortDirection)
+            .skip((processedQuery.pageNumber - 1) * processedQuery.pageSize)
+            .limit(processedQuery.pageSize)
+            .toArray()
+        const totalCount = await postCollection.countDocuments(filter)
+        const pagesCount = Math.ceil(totalCount / processedQuery.pageSize)
+        return {
+            'pagesCount': pagesCount,
+            'page': processedQuery.pageNumber,
+            'pageSize': processedQuery.pageSize,
+            'totalCount': totalCount,
+            'items': allPosts.map(mapPostToView)
+        }
+    },
+
     async findPostById(postId: string): Promise<PostViewModel | null> {
         let post = await postCollection.findOne({_id: new ObjectId(postId)})
         return post ? await mapPostToView(post) : null
