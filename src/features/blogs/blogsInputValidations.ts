@@ -5,8 +5,8 @@ export const blogsInputValidations = () => [
     nameValidation, descriptionValidation, websiteUrlValidation, inputCheckErrorsMiddleware
 ]
 
-export const blogsIdValidation = () => [
-    idValidation, inputCheckErrorsMiddleware
+export const blogIdParamValidations = () => [
+    blogIdParamValidation, inputCheckErrorsMiddleware
 ]
 
 export const descriptionValidation = body('description')
@@ -24,5 +24,5 @@ export const websiteUrlValidation = body('websiteUrl')
         field: 'websiteUrl'
     })
     .isLength({min: 10, max: 100}).withMessage({message: 'string of 10 to 100 symbol.', field: 'websiteUrl'})
-export const idValidation = param('blogId').isMongoId().withMessage({message: 'Invalid MongoDB ID.', field: 'blogId'})
+export const blogIdParamValidation = param('blogId').isMongoId().withMessage({message: 'Invalid MongoDB ID.', field: 'blogId'})
 
