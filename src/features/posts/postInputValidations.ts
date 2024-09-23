@@ -3,20 +3,19 @@ import {inputCheckErrorsMiddleware} from "../../global-middiewares/inputCheckErr
 import {blogMongoQueryRepository} from "../blogs/repository/blogMongoQueryRepository";
 
 
-export const postInputValidations = () => {
-    return [
+export const postInputValidations = () => [
         titleValidation,
         shortDescriptionValidation,
         contentValidation,
-        blogIdValidation,
+        blogIdBodyValidation,
         inputCheckErrorsMiddleware,
-    ]}
-
-export const postIdValidation = () => [
-        idValidation, inputCheckErrorsMiddleware
     ]
 
-export const blogIdValidation = body('blogId')
+export const postIdValidations = () => [
+    postIdParamValidation, inputCheckErrorsMiddleware
+    ]
+
+export const blogIdBodyValidation = body('blogId')
     .isString().withMessage({message: 'There should be a string', field: 'blogId'})
     .trim().custom(async blogId => {
         const blog = await blogMongoQueryRepository.findBlogId(blogId)
@@ -39,5 +38,6 @@ export const contentValidation = body('content')
     .isString().withMessage({message: 'There should be a string', field: 'content'})
     .trim().isLength({min: 3, max: 1000}).withMessage({message: 'string of 3 to 1000 symbol.', field: 'content'})
 
-export const idValidation = param('postId').isMongoId().withMessage({message: 'Invalid MongoDB ID.', field: 'postId'})
+export const postIdParamValidation = param('postId').isMongoId().withMessage({message: 'Invalid MongoDB ID.', field: 'postId'})
+
 
