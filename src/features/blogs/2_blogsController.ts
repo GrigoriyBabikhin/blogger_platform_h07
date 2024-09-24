@@ -20,7 +20,7 @@ export const blogsController = {
         req: Request<any, any, BlogInputModel>,
         res: Response<BlogViewModel | null>) {
         const createdBlog = await blogsService.createBlog(req.body)
-        if (createdBlog === null) return res.status(404).json()
+        if (!createdBlog) return res.status(404).json()
         const mapBlog = await blogMongoQueryRepository.findBlogId(createdBlog)
         return res.status(201).json(mapBlog)
     },
@@ -29,16 +29,17 @@ export const blogsController = {
         req: Request<{ blogId: string }, any, any, SortingQueryField>,
         res: Response<Paginator<PostViewModel[]> | null>,) {
         const blog = await blogsService.findBlogId(req.params.blogId)
-        if(blog === null) return res.status(404).json()
-        const PostsByBlogId = await postsMongoQueryRepository.getPostsByBlogId(req.params.blogId, req.query)
-        return res.status(200).json(PostsByBlogId)
+        if (!blog) return res.status(404).json()
+        const postsByBlogId = await postsMongoQueryRepository.getPostsByBlogId(req.params.blogId, req.query)
+        return res.status(200).json(postsByBlogId)
     },
+
 
     async getBlogById(
         req: Request<{ blogId: string }>,
         res: Response<BlogViewModel | null>) {
         let blog = await blogMongoQueryRepository.findBlogId(req.params.blogId)
-        if (blog === null) return res.status(404).json()
+        if (!blog) return res.status(404).json()
         return res.status(200).json(blog)
     },
 
@@ -54,7 +55,7 @@ export const blogsController = {
         req: Request<{ blogId: string }>,
         res: Response) {
         const isDeleted = await blogsService.deleteBlog(req.params.blogId)
-        if (isDeleted) return res.status(204).json()
-        return res.status(404).json()
+        if (!isDeleted) return res.status(404).json()
+        return res.status(204).json()
     },
 }
