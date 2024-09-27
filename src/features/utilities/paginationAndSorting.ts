@@ -26,7 +26,7 @@ export type SortingQueryFilter = {
 export const getPaginationAndSortOptions = (query: SortingQueryField): SortingQueryFilter => {
     const pageNumber =  Number(query.pageNumber) || 1
     const pageSize = Number(query.pageSize) || 10
-    const sortBy = query.sortBy || 'CreatedAt'
+    const sortBy = query.sortBy || 'createdAt'
     //Явная проверка на то что из query прилетит "ASC" если нет то по дефолту. При компиляции в js типизация слетит.
     const sortDirection = query.sortDirection === 'asc' ? SortDirection.ASC : SortDirection.DESC
     //searchNameTerm: Поисковый запрос для названия блога: Имя должно содержать этот термин в любой позиции.
