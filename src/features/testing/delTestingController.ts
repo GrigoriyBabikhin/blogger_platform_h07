@@ -1,6 +1,5 @@
 import {Request, Response} from "express";
 import {blogsService} from "../blogs/3_blogsService";
-import {postsMongoRepository} from "../posts/repsitory/postsMongoRepository";
 import {postsService} from "../posts/3_postsServese";
 
 export const delTestingController = async (req: Request, res: Response) => {
