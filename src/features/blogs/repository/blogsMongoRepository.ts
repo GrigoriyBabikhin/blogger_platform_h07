@@ -5,25 +5,14 @@ import {BlogsDbType} from "../blogs-type";
 
 export const blogsMongoRepository = {
 
-    async findBlogId(blogId: string): Promise<WithId<BlogsDbType> | null> {
+    async findBlogById(blogId: string): Promise<WithId<BlogsDbType> | null> {
         let blog = await blogCollection.findOne({_id: new ObjectId(blogId)})
-        return blog ? await blog : null
+        return blog ? blog : null
     },
 
-    async createBlog(blogInput: BlogInputModel): Promise<string | null> {
-        const newBlog = {
-            name: blogInput.name,
-            description: blogInput.description,
-            websiteUrl: blogInput.websiteUrl,
-            createdAt: new Date().toISOString(),
-            isMembership: false
-        }
+    async createBlog(newBlog: BlogsDbType): Promise<string | null> {
         const createdBlogId = await blogCollection.insertOne(newBlog)
-        if (createdBlogId.insertedId && createdBlogId.acknowledged) {
-            return createdBlogId.insertedId.toString()
-        } else {
-            return null
-        }
+        return createdBlogId.insertedId ? createdBlogId.insertedId.toString() : null
     },
 
     async updateBlog(blogId: string, blog: BlogInputModel): Promise<boolean> {
@@ -43,7 +32,7 @@ export const blogsMongoRepository = {
         return result.deletedCount === 1
     },
 
-    async deleteALL(): Promise<boolean> {
+    async deleteAllBlogs(): Promise<boolean> {
         return await blogCollection.drop()
 
     },
