@@ -14,6 +14,9 @@ export const postInputValidations = () => [
 export const postIdValidations = () => [
     postIdParamValidation, inputCheckErrorsMiddleware
     ]
+export const PostInputByBlogValidations = () => [
+    titleValidation, shortDescriptionValidation, contentValidation, inputCheckErrorsMiddleware
+]
 
 export const blogIdBodyValidation = body('blogId')
     .isString().withMessage({message: 'There should be a string', field: 'blogId'})
