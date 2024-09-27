@@ -19,29 +19,9 @@ export const mapPostToView = (posts: WithId<PostsDbType>): PostViewModel => {
 
 export const postsMongoQueryRepository = {
 
-    async getAllPosts(query: SortingQueryField): Promise<Paginator<PostViewModel[]>> {
+    async getAllPosts(query: SortingQueryField, blogId?: string): Promise<Paginator<PostViewModel[]>> {
         const processedQuery = getPaginationAndSortOptions(query)
-        const filter = {}
-        const allPosts = await postCollection
-            .find(filter)
-            .sort(processedQuery.sortBy, processedQuery.sortDirection)
-            .skip((processedQuery.pageNumber - 1) * processedQuery.pageSize)
-            .limit(processedQuery.pageSize)
-            .toArray()
-        const totalCount = await postCollection.countDocuments(filter)
-        const pagesCount = Math.ceil(totalCount / processedQuery.pageSize)
-        return {
-            'pagesCount': pagesCount,
-            'page': processedQuery.pageNumber,
-            'pageSize': processedQuery.pageSize,
-            'totalCount': totalCount,
-            'items': allPosts.map(mapPostToView)
-        }
-    },
-
-    async getPostsByBlogId(blogId: string, query: SortingQueryField): Promise<Paginator<PostViewModel[]>> {
-        const processedQuery = getPaginationAndSortOptions(query)
-        const filter = {blogId: blogId}
+        const filter = blogId ? {blogId: blogId} : {}
         const allPosts = await postCollection
             .find(filter)
             .sort(processedQuery.sortBy, processedQuery.sortDirection)
