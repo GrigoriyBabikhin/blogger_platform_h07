@@ -1,18 +1,11 @@
 import {PostInputModel} from "../../../input-output-types/post-types";
 import {postCollection} from "../../../db/mongo-db";
 import {ObjectId} from "mongodb";
+import {PostsDbType} from "../post-type";
 
 export const postsMongoRepository = {
 
-    async createPost(postsInput: PostInputModel): Promise<string | null> {
-        const newPost = {
-            title: postsInput.title,
-            shortDescription: postsInput.shortDescription,
-            content: postsInput.content,
-            blogId: postsInput.blogId,
-            blogName: "string",
-            createdAt: new Date().toISOString(),
-        }
+    async createPost(newPost: PostsDbType): Promise<string | null> {
         const createdPostId = await postCollection.insertOne(newPost)
         return createdPostId.insertedId ? createdPostId.insertedId.toString() : null
     },
@@ -35,7 +28,7 @@ export const postsMongoRepository = {
         return result.deletedCount === 1
     },
 
-    async deleteALL() {
+    async deleteALLPosts() {
         return await postCollection.drop()
     },
 }
