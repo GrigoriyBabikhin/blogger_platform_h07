@@ -5,7 +5,9 @@ import {BlogInputModel, BlogViewModel} from "../../input-output-types/blogs-type
 import {blogMongoQueryRepository} from "./repository/blogMongoQueryRepository";
 import {blogsService} from "./3_blogsService";
 import {postsMongoQueryRepository} from "../posts/repsitory/postsMongoQueryRepository";
-import {PostViewModel} from "../../input-output-types/post-types";
+import {PostInputByBlogModel, PostViewModel} from "../../input-output-types/post-types";
+import {postsService} from "../posts/3_postsServese";
+import {blogsMongoRepository} from "./repository/blogsMongoRepository";
 
 
 export const blogsController = {
@@ -28,12 +30,20 @@ export const blogsController = {
     async getPostsByBlogId(
         req: Request<{ blogId: string }, any, any, SortingQueryField>,
         res: Response<Paginator<PostViewModel[]> | null>,) {
-        const blog = await blogsService.findBlogId(req.params.blogId)
+        const blog = await blogsMongoRepository.findBlogById(req.params.blogId)
         if (!blog) return res.status(404).json()
-        const postsByBlogId = await postsMongoQueryRepository.getPostsByBlogId(req.params.blogId, req.query)
+        const postsByBlogId = await postsMongoQueryRepository.getAllPosts(req.query, req.params.blogId)
         return res.status(200).json(postsByBlogId)
     },
 
+    async createPostByBlogId(
+        req: Request<{ blogId: string }, any, PostInputByBlogModel>,
+        res: Response<PostViewModel | null>,) {
+        const createPostByBlog = await postsService.createPostByBlogId(req.params.blogId, req.body)
+        if(!createPostByBlog) return res.status(404).json()
+        const mapPostByBlog = await postsMongoQueryRepository.findPostById(createPostByBlog)
+        return res.status(201).json(mapPostByBlog)
+    },
 
     async getBlogById(
         req: Request<{ blogId: string }>,
