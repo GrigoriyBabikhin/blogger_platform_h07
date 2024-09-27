@@ -31,13 +31,3 @@ export const inputCheckErrorsMiddleware = (
        return  res.status(500).json(errorResponse)
     }
 }
-
-//Должно вернуть: { errorsMessages: [{ message: Any<String>, field: "websiteUrl" }, { message: Any<String>, field: "name" }] }
-//array({onlyFirstError: true})}) вернет только первую ошибку.
-
-
-// if (errors.length) {
-//     res.status(400).json({errorsMessages: errors.map(i => i.msg)})
-//     return
-// }
-// next()
