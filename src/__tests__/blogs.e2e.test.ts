@@ -208,7 +208,7 @@ describe('/blogs', () => {
         })
 
         it('Should return status 404, not found', async () => {
-            const createPost = await req
+             await req
                 .post(`${SETTINGS.PATH.BLOGS}/${nonExistentBlogId}/posts`)
                 .set('Authorization', 'Basic ' + codedAuth)
                 .send(postByBlogInput)
