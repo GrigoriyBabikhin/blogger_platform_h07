@@ -207,7 +207,7 @@ describe('/blogs', () => {
         })
 
         it('Should return status 404, not found', async () => {
-             await req
+            await req
                 .post(`${SETTINGS.PATH.BLOGS}/${nonExistentBlogId}/posts`)
                 .set('Authorization', 'Basic ' + codedAuth)
                 .send(postByBlogInput)
@@ -274,14 +274,16 @@ describe('/blogs', () => {
             const res = await req
                 .put(SETTINGS.PATH.BLOGS + '/' + blog1.id)
                 .set('Authorization', 'Basic ' + codedAuth)
-                .send(blogInvalidURLInput).expect(400)
+                .send(blogInvalidURLInput)
+                .expect(400)
 
             expect(res.body.errorsMessages[0].field).toEqual('websiteUrl')
 
             const res2 = await req
                 .put(SETTINGS.PATH.BLOGS + '/' + blog1.id)
                 .set('Authorization', 'Basic ' + codedAuth)
-                .send(blogInvalidLengthStingInput).expect(400)
+                .send(blogInvalidLengthStingInput)
+                .expect(400)
 
             expect(res2.body.errorsMessages.length).toEqual(3)
             expect(res2.body.errorsMessages[0].field).toEqual('name')
