@@ -46,7 +46,7 @@ describe('/blogs', () => {
     })
 
     describe('Crate new blog', () => {
-        it('Should create new blogs and return status 201.', async () => {
+        it('Should create new blog and return status 201.', async () => {
             await clearDB()
             const res = await req
                 .post(SETTINGS.PATH.BLOGS)
@@ -102,7 +102,6 @@ describe('/blogs', () => {
             expect(getRes.body.items.length).toBe(1);
             expect(getRes.body.items).toEqual(expect.arrayContaining([blog1]));
         })
-
     })
 
     describe('Returns all posts for the specified blog', () => {
@@ -289,12 +288,6 @@ describe('/blogs', () => {
             expect(res2.body.errorsMessages[1].field).toEqual('description')
             expect(res2.body.errorsMessages[2].field).toEqual('websiteUrl')
 
-            const getRes = await req
-                .get(SETTINGS.PATH.BLOGS)
-                .expect(200)
-
-            expect(getRes.body.items.length).toBe(1);
-            expect(getRes.body.items).toEqual(expect.arrayContaining([blog1]));
         })
 
         it('Should return status 401, not authorized', async () => {
@@ -320,6 +313,13 @@ describe('/blogs', () => {
                 .set('Authorization', 'Basic ' + codedAuth)//req.headers['authorization'] = Basic YWRtaW46cXdlcnR5
                 .send(blogUpdateInput)
                 .expect(404)
+
+            const getRes = await req
+                .get(SETTINGS.PATH.BLOGS)
+                .expect(200)
+
+            expect(getRes.body.items.length).toBe(1);
+            expect(getRes.body.items).toEqual(expect.arrayContaining([blog1]));
         })
     })
 
