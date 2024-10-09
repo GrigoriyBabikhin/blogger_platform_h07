@@ -1,4 +1,4 @@
-import {BlogInputModel, BlogViewModel} from "../../input-output-types/blogs-types";
+import {BlogInputModel} from "../../input-output-types/blogs-types";
 import {createdString} from "./utilities";
 import {PostInputByBlogModel, PostInputModel} from "../../input-output-types/post-types";
 
