@@ -1,15 +1,20 @@
 import {req} from "./helpers/test-helpers";
 import {SETTINGS} from "../settings";
-import {codedAuth, createBlog, createdString, createPost, updatePost} from "./helpers/data-test";
-import {client} from "../db/mongo-db";
+import {
+    blogInput,
+    nonExistentMongoId,
+    postInput,
+    postInvalidLengthStingInput,
+    postUpdateInput
+} from "./helpers/dataTest";
+import {client, connectToDB} from "../db/mongo-db";
 import {PostViewModel} from "../input-output-types/post-types";
 import {BlogViewModel} from "../input-output-types/blogs-types";
-
+import {clearDB, codedAuth, createdString} from "./helpers/utilities";
 
 describe('/posts', () => {
-    //зачистка базы данных для тестов.
     beforeAll(async () => {
-        await req.delete(SETTINGS.PATH.TESTING)
+        await connectToDB()
     })
 
     afterAll(async () => {
@@ -21,159 +26,279 @@ describe('/posts', () => {
     let post2: PostViewModel;
     let blog1: BlogViewModel;
 
-    beforeAll(async () => {
-        const res = await req
-            .post(SETTINGS.PATH.BLOGS)
-            .set('Authorization', 'Basic ' + codedAuth)//req.headers['authorization'] = Basic YWRtaW46cXdlcnR5
-            .send(createBlog)
-            .expect(201)
-        //console.log(res.body)
-        //записываем в переменную.
-        blog1 = res.body
+    // beforeAll(async () => {
+    //     const res = await req
+    //         .post(SETTINGS.PATH.BLOGS)
+    //         .set('Authorization', 'Basic ' + codedAuth)//req.headers['authorization'] = Basic YWRtaW46cXdlcnR5
+    //         .send(blogInput)
+    //         .expect(201)
+    //     blog1 = res.body
+    // })
+
+    describe('Returns all posts', () => {
+        it('Should return empty array and status 200', async () => {
+            await clearDB()
+            const res = await req
+                .get(SETTINGS.PATH.POSTS)
+                .expect(200)
+            expect(res.body.items.length).toBe(0);
+            expect(res.body).toEqual({
+                pagesCount: 0,
+                page: 1,
+                pageSize: 10,
+                totalCount: 0,
+                items: expect.arrayContaining([]),
+            });
+        })
     })
 
-    //Проверка get-posts
-    //status 200
-    it('Should return empty array and status 200', async () => {
-        await req
-            .get(SETTINGS.PATH.POSTS)
-            .expect(200, [])
+    describe('Create new posts', () => {
+        it('Should create new post and return status 201.', async () => {
+            await clearDB()
+            const res = await req
+                .post(SETTINGS.PATH.BLOGS)
+                .set('Authorization', 'Basic ' + codedAuth)
+                .send(blogInput)
+                .expect(201)
+            blog1 = res.body
+
+            const res2 = await req
+                .post(SETTINGS.PATH.POSTS)
+                .set('Authorization', 'Basic ' + codedAuth)
+                .send({...postInput, blogId: blog1.id})
+                .expect(201)
+            post1 = res2.body
+
+            expect(res2.body).toEqual(expect.objectContaining(post1))
+        })
+
+        it('Should return status 400 if the input data is invalid', async () => {
+            const res = await req
+                .post(SETTINGS.PATH.POSTS)
+                .set('Authorization', 'Basic ' + codedAuth)
+                .send(postInvalidLengthStingInput)
+                .expect(400)
+
+            expect(res.body.errorsMessages.length).toEqual(4)
+            expect(res.body.errorsMessages[0].field).toEqual('title')
+            expect(res.body.errorsMessages[1].field).toEqual('shortDescription')
+            expect(res.body.errorsMessages[2].field).toEqual('content')
+            expect(res.body.errorsMessages[3].field).toEqual('blogId')
+
+        })
+        it('Should return status 401 not authorized', async () => {
+            const res = await req
+                .post(SETTINGS.PATH.POSTS)
+                .send({...postInput, blogId: blog1.id})
+                .expect(401)
+
+            expect(res.body).toEqual({error: 'Authentication required'})
+
+            const res2 = await req
+                .post(SETTINGS.PATH.POSTS)
+                .set('Authorization', 'Basic ' + codedAuth + '1234')
+                .send({...postInput, blogId: blog1.id})
+                .expect(401)
+
+            expect(res2.body).toEqual({error: 'wrong login or password'})
+
+            const getRes = await req
+                .get(SETTINGS.PATH.POSTS)
+                .expect(200)
+
+            expect(getRes.body.items.length).toBe(1);
+            expect(getRes.body.items).toEqual(expect.arrayContaining([post1]));
+        })
     })
 
-    //Проверка posts запроса.
-    //status 201
-    it('Should create статус 201, when creating a post', async () => {
-        const newPost = {...createPost, blogId: blog1.id}
-        //создаем валидный объект 1
-        const res = await req
-            .post(SETTINGS.PATH.POSTS)
-            .set('Authorization', 'Basic ' + codedAuth)//req.headers['authorization'] = Basic YWRtaW46cXdlcnR5
-            .send(newPost)
-            .expect(201)
+    describe('Return post by id', () => {
+        it('Should return status 200, search by idd', async () => {
+            await clearDB()
+            const res = await req
+                .post(SETTINGS.PATH.BLOGS)
+                .set('Authorization', 'Basic ' + codedAuth)
+                .send(blogInput)
+                .expect(201)
+            blog1 = res.body
 
-        //записываем в переменную.
-        post1 = res.body
+            const res2 = await req
+                .post(SETTINGS.PATH.POSTS)
+                .set('Authorization', 'Basic ' + codedAuth)
+                .send({...postInput, blogId: blog1.id})
+                .expect(201)
+            post1 = res2.body
 
-        //проверим что наши свойства объекта создались правильно.
-        expect(post1).toEqual(
-            expect.objectContaining(newPost)
-        )
+            expect(res2.body).toEqual(expect.objectContaining(post1))
 
-        //создаем валидный объект 2
-        const res2 = await req
-            .post(SETTINGS.PATH.POSTS)
-            .set('Authorization', 'Basic ' + codedAuth)//req.headers['authorization'] = Basic YWRtaW46cXdlcnR5
-            .send(newPost)
-            .expect(201)
+            const getRes = await req
+                .get(SETTINGS.PATH.POSTS + '/' + post1.id)
+                .expect(200)
 
-        //записываем в переменную.
-        post2 = res2.body
+            expect(getRes.body).toEqual(post1);
+        })
 
-        //проверим что наши свойства объекта создались правильно.
-        expect(post2).toEqual(
-            expect.objectContaining(newPost)
-        )
-
-        //проверим что новый объект создался
-        await req
-            .get(SETTINGS.PATH.POSTS)
-            .expect(200, [post1, post2])
+        it('Should return status 404, search by id', async () => {
+            await req
+                .get(SETTINGS.PATH.BLOGS + nonExistentMongoId)
+                .expect(404)
+        })
     })
 
-    //status 400
-    it('Should return status 400 if the data posts is invalid', async () => {
-        const res = await req
-            .post(SETTINGS.PATH.POSTS)
-            .set('Authorization', 'Basic ' + codedAuth)
-            .send({
-                "title": createdString(31),
-                "shortDescription": createdString(101),
-                "content": createdString(1001),
-                "blogId": '66b8973ceb87400953ab00bf'
-            }).expect(400)
+    describe('Update existing post dy id with inputModel', () => {
+        it('Should return status 204, if the update data is valid', async () => {
+            await clearDB()
+            const createBlog = await req
+                .post(SETTINGS.PATH.BLOGS)
+                .set('Authorization', 'Basic ' + codedAuth)
+                .send(blogInput)
+                .expect(201)
+            blog1 = createBlog.body
 
-        //Проверяем только field с указанием ошибки.
-        expect(res.body.errorsMessages.length).toEqual(4)
-        expect(res.body.errorsMessages[0].field).toEqual('title')
-        expect(res.body.errorsMessages[1].field).toEqual('shortDescription')
-        expect(res.body.errorsMessages[2].field).toEqual('content')
-        expect(res.body.errorsMessages[3].field).toEqual('blogId')
+            const createPost1 = await req
+                .post(SETTINGS.PATH.POSTS)
+                .set('Authorization', 'Basic ' + codedAuth)
+                .send({...postInput, blogId: blog1.id})
+                .expect(201)
+            post1 = createPost1.body
 
-        //проверка массива
-        const getRes = await req
-            .get(SETTINGS.PATH.POSTS)
-            .expect(200)
+            const createPost2 = await req
+                .post(SETTINGS.PATH.POSTS)
+                .set('Authorization', 'Basic ' + codedAuth)
+                .send({...postInput, blogId: blog1.id})
+                .expect(201)
+            post2 = createPost2.body
 
-        expect([post1, post2]).toEqual(getRes.body)
+            expect(post1).toEqual(expect.objectContaining({...postInput, blogId: blog1.id}))
+            expect(post2).toEqual(expect.objectContaining({...postInput, blogId: blog1.id}))
+
+             await req
+                .put(SETTINGS.PATH.POSTS + '/' + post1.id)
+                .set('Authorization', 'Basic ' + codedAuth)
+                .send({...postUpdateInput, blogId: blog1.id})
+                .expect(204)
+
+            const updatePost = await req
+                .get(SETTINGS.PATH.POSTS + '/' + post1.id)
+                .expect(200)
+            post1 = updatePost.body
+
+            expect(post1).toEqual(expect.objectContaining({...postUpdateInput, blogId: blog1.id}))
+        })
+
+        it('Should return status 400, if the input data is invalid', async () => {
+            const res = await req
+                .put(SETTINGS.PATH.POSTS + '/' + post2.id)
+                .set('Authorization', 'Basic ' + codedAuth)
+                .send(postInvalidLengthStingInput)
+                .expect(400)
+
+            expect(res.body.errorsMessages.length).toEqual(4)
+            expect(res.body.errorsMessages[0].field).toEqual('title')
+            expect(res.body.errorsMessages[1].field).toEqual('shortDescription')
+            expect(res.body.errorsMessages[2].field).toEqual('content')
+            expect(res.body.errorsMessages[3].field).toEqual('blogId')
+        })
+
+        it('Should return status 401, not authorized', async () => {
+            const res = await req
+                .put(SETTINGS.PATH.POSTS + '/' + post2.id)
+                .send({...postUpdateInput, blogId: blog1.id})
+                .expect(401)
+
+            expect(res.body).toEqual({error: 'Authentication required'})
+
+            const res2 = await req
+                .put(SETTINGS.PATH.POSTS + '/' + post2.id)
+                .set('Authorization', 'Basic ' + codedAuth + '1234')
+                .send({...postInput, blogId: blog1.id})
+                .expect(401)
+
+            expect(res2.body).toEqual({error: 'wrong login or password'})
+        })
+
+        it('Should return status 404, Not Found', async () => {
+            await req
+                .put(SETTINGS.PATH.POSTS + '/' + nonExistentMongoId)
+                .set('Authorization', 'Basic ' + codedAuth)
+                .send({...postUpdateInput, blogId: blog1.id})
+                .expect(404)
+
+            const getRes = await req
+                .get(SETTINGS.PATH.POSTS + '/' + post2.id)
+                .expect(200)
+
+            expect(getRes.body).toEqual(expect.objectContaining({...postInput, blogId: blog1.id}))
+        })
+
     })
 
-    //Проверка get id
-    //status 200
-    it('Should return status 200 search posts by id', async () => {
-        await req
-            .get(SETTINGS.PATH.POSTS + '/' + post1.id)
-            .expect(200, post1)
-    })
+    describe('Delete post specified by id', () => {
+        it('Should return status 204, upon successful delete', async () => {
+            await clearDB()
+            const createBlog = await req
+                .post(SETTINGS.PATH.BLOGS)
+                .set('Authorization', 'Basic ' + codedAuth)
+                .send(blogInput)
+                .expect(201)
+            blog1 = createBlog.body
 
-    //status 404 not found
-    it('Should return status 404 search posts by id', async () => {
-        await req
-            .get(SETTINGS.PATH.BLOGS + '/66b8973ceb87400953ab00bf')
-            .expect(404)
-    })
+            const createPost1 = await req
+                .post(SETTINGS.PATH.POSTS)
+                .set('Authorization', 'Basic ' + codedAuth)
+                .send({...postInput, blogId: blog1.id})
+                .expect(201)
+            post1 = createPost1.body
 
-    //Проверка put
-    //status 204
-    it('Should return status 204 if the update post is valid', async () => {
-        const newUpdatePost = {...updatePost, blogId: blog1.id}
-        //Обновить объект валидными данными
-        await req
-            .put(SETTINGS.PATH.POSTS + '/' + post1.id)
-            .set('Authorization', 'Basic ' + codedAuth)//req.headers['authorization'] = Basic YWRtaW46cXdlcnR5
-            .send(newUpdatePost)
-            .expect(204)
+            const createPost2 = await req
+                .post(SETTINGS.PATH.POSTS)
+                .set('Authorization', 'Basic ' + codedAuth)
+                .send({...postInput, blogId: blog1.id})
+                .expect(201)
+            post2 = createPost2.body
 
-        //проверим что наши свойства объекта создались правильно.
-        await req
-            .get(SETTINGS.PATH.POSTS + '/' + post1.id)
-            .expect(200, {
-                ...post1,
-                "title": "updatePost",
-                "shortDescription": "updatePost",
-                "content": "updatePost",
-                "blogId": blog1.id
-            })
+            expect(post1).toEqual(expect.objectContaining({...postInput, blogId: blog1.id}))
+            expect(post2).toEqual(expect.objectContaining({...postInput, blogId: blog1.id}))
 
-        //обновляем Post c новыми данными.
-        post1 = {...post1, ...newUpdatePost}
+            await req
+                .delete(SETTINGS.PATH.POSTS + '/' + post1.id)
+                .set('Authorization', 'Basic ' + codedAuth)
+                .expect(204)
 
-        //запросить данные через get id
-        const newBlog = await req
-            .get(SETTINGS.PATH.POSTS + '/' + post1.id)
-            .expect(200)
-        //сравнить полученные данные с переменной для тестов.
-        expect(newBlog.body).toEqual(post1)
+            const getRes = await req
+                .get(SETTINGS.PATH.POSTS)
+                .expect(200)
 
-    })
+            expect(getRes.body.items.length).toBe(1);
+            expect(getRes.body.items).toEqual(expect.arrayContaining([post2]));
+        })
 
-    //Проверка delete
-    //status 204
-    it('Should return status 204, upon successful deletion of a post', async () => {
-        //Удалить объект
-        await req
-            .delete(SETTINGS.PATH.POSTS + '/' + post1.id)
-            .set('Authorization', 'Basic ' + codedAuth)//req.headers['authorization'] = Basic YWRtaW46cXdlcnR5
-            .expect(204)
+        it('Should return status 401, not authorized', async () => {
+            const res = await req
+                .delete(SETTINGS.PATH.POSTS + '/' + post2.id)
+                .expect(401)
 
-        //пробуем найти наш блог
-        await req
-            .get(SETTINGS.PATH.POSTS + '/' + post1.id)
-            .expect(404)
+            expect(res.body).toEqual({error: 'Authentication required'})
 
-        //проверяем массив должен остаться 1 объект
-        await req
-            .get(SETTINGS.PATH.POSTS)
-            .expect(200, [post2])
+            const res2 = await req
+                .delete(SETTINGS.PATH.POSTS + '/' + post2.id)
+                .set('Authorization', 'Basic ' + codedAuth + '1234')
+                .expect(401)
 
+            expect(res2.body).toEqual({error: 'wrong login or password'})
+        })
+
+        it('Should return status 404, not found', async () => {
+            await req
+                .delete(SETTINGS.PATH.POSTS + '/' + nonExistentMongoId)
+                .set('Authorization', 'Basic ' + codedAuth)
+                .expect(404)
+
+            const getRes = await req
+                .get(SETTINGS.PATH.POSTS)
+                .expect(200)
+
+            expect(getRes.body.items.length).toBe(1);
+            expect(getRes.body.items).toEqual(expect.arrayContaining([post2]));
+        })
     })
 })
