@@ -21,19 +21,9 @@ describe('/posts', () => {
         await client.close()
     })
 
-    //создали переменную для того чтобы другие тесты смогли к ней обращаться.
     let post1: PostViewModel;
     let post2: PostViewModel;
     let blog1: BlogViewModel;
-
-    // beforeAll(async () => {
-    //     const res = await req
-    //         .post(SETTINGS.PATH.BLOGS)
-    //         .set('Authorization', 'Basic ' + codedAuth)//req.headers['authorization'] = Basic YWRtaW46cXdlcnR5
-    //         .send(blogInput)
-    //         .expect(201)
-    //     blog1 = res.body
-    // })
 
     describe('Returns all posts', () => {
         it('Should return empty array and status 200', async () => {
@@ -84,8 +74,8 @@ describe('/posts', () => {
             expect(res.body.errorsMessages[1].field).toEqual('shortDescription')
             expect(res.body.errorsMessages[2].field).toEqual('content')
             expect(res.body.errorsMessages[3].field).toEqual('blogId')
-
         })
+
         it('Should return status 401 not authorized', async () => {
             const res = await req
                 .post(SETTINGS.PATH.POSTS)
@@ -229,7 +219,6 @@ describe('/posts', () => {
 
             expect(getRes.body).toEqual(expect.objectContaining({...postInput, blogId: blog1.id}))
         })
-
     })
 
     describe('Delete post specified by id', () => {
