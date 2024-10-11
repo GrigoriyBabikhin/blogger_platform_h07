@@ -2,7 +2,7 @@ import {BlogInputModel} from "../../input-output-types/blogs-types";
 import {createdString} from "./utilities";
 import {PostInputByBlogModel, PostInputModel} from "../../input-output-types/post-types";
 
-export const nonExistentBlogId = '/66f56bb5e952f95dd90e2d11';
+export const nonExistentMongoId = '/66f56bb5e952f95dd90e2d11';
 export const blogInput: BlogInputModel = {
     "name": "string",
     "description": "string",
@@ -26,12 +26,25 @@ export const blogInvalidLengthStingInput: BlogInputModel = {
     "description": createdString(501),
     "websiteUrl": createdString(101),
 };
+export const postInvalidLengthStingInput: PostInputModel = {
+    "title": createdString(31),
+    "shortDescription": createdString(101),
+    "content": createdString(1001),
+    "blogId": '66f56bb5e952f95dd90e2d11'
+}
+
+export const postInput: PostInputModel = {
+    "title": "string",
+    "shortDescription": "string",
+    "content": "string",
+    "blogId": "string"
+}
 
 export const postUpdateInput: PostInputModel = {
     "title": "updatePost",
     "shortDescription": "updatePost",
     "content": "updatePost",
-    "blogId": '1'
+    "blogId": "string"
 }
 
 export const postByBlogInput: PostInputByBlogModel = {
@@ -45,6 +58,7 @@ export const postByBlogInvalidLengthStingInput: PostInputByBlogModel = {
     "shortDescription": createdString(101),
     "content": createdString(1001),
 }
+
 
 
 
