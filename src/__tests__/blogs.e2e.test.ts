@@ -364,7 +364,7 @@ describe('/blogs', () => {
             expect(getRes.body.items).toEqual(expect.arrayContaining([blog2]));
         })
 
-        it('Should return status 401, not authorized.', async () => {
+        it('Should return status 401, not authorized', async () => {
             const res = await req
                 .delete(SETTINGS.PATH.BLOGS + '/' + blog2.id)
                 .expect(401)
