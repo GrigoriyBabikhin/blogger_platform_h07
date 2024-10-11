@@ -5,7 +5,7 @@ import {
     blogUpdateInput,
     blogInvalidLengthStingInput,
     blogInvalidURLInput,
-    nonExistentBlogId,
+    nonExistentMongoId,
     postByBlogInput, postByBlogInvalidLengthStingInput
 } from "./helpers/dataTest";
 import {client, connectToDB} from "../db/mongo-db";
@@ -145,7 +145,7 @@ describe('/blogs', () => {
 
         it('Should return status 404, if the blog is not found', async () => {
             await req
-                .get(`${SETTINGS.PATH.BLOGS}/${nonExistentBlogId}/posts`)
+                .get(`${SETTINGS.PATH.BLOGS}/${nonExistentMongoId}/posts`)
                 .expect(404)
         })
     })
@@ -208,7 +208,7 @@ describe('/blogs', () => {
 
         it('Should return status 404, not found', async () => {
             await req
-                .post(`${SETTINGS.PATH.BLOGS}/${nonExistentBlogId}/posts`)
+                .post(`${SETTINGS.PATH.BLOGS}/${nonExistentMongoId}/posts`)
                 .set('Authorization', 'Basic ' + codedAuth)
                 .send(postByBlogInput)
                 .expect(404)
@@ -241,7 +241,7 @@ describe('/blogs', () => {
 
         it('Should return status 404, search by id', async () => {
             await req
-                .get(SETTINGS.PATH.BLOGS + nonExistentBlogId)
+                .get(SETTINGS.PATH.BLOGS + nonExistentMongoId)
                 .expect(404)
         })
     })
@@ -255,6 +255,16 @@ describe('/blogs', () => {
                 .send(blogInput)
                 .expect(201)
             blog1 = createBlog.body
+
+            const createBlog2 = await req
+                .post(SETTINGS.PATH.BLOGS)
+                .set('Authorization', 'Basic ' + codedAuth)
+                .send(blogInput)
+                .expect(201)
+            blog2 = createBlog2.body
+
+            expect(blog1).toEqual(expect.objectContaining(blogInput))
+            expect(blog2).toEqual(expect.objectContaining(blogInput))
 
             await req
                 .put(SETTINGS.PATH.BLOGS + '/' + blog1.id)
@@ -272,7 +282,7 @@ describe('/blogs', () => {
 
         it('Should return status 400, if the input data is invalid', async () => {
             const res = await req
-                .put(SETTINGS.PATH.BLOGS + '/' + blog1.id)
+                .put(SETTINGS.PATH.BLOGS + '/' + blog2.id)
                 .set('Authorization', 'Basic ' + codedAuth)
                 .send(blogInvalidURLInput)
                 .expect(400)
@@ -280,7 +290,7 @@ describe('/blogs', () => {
             expect(res.body.errorsMessages[0].field).toEqual('websiteUrl')
 
             const res2 = await req
-                .put(SETTINGS.PATH.BLOGS + '/' + blog1.id)
+                .put(SETTINGS.PATH.BLOGS + '/' + blog2.id)
                 .set('Authorization', 'Basic ' + codedAuth)
                 .send(blogInvalidLengthStingInput)
                 .expect(400)
@@ -294,16 +304,16 @@ describe('/blogs', () => {
 
         it('Should return status 401, not authorized', async () => {
             const res = await req
-                .put(SETTINGS.PATH.BLOGS + '/' + blog1.id)
-                .send(blogInput)
+                .put(SETTINGS.PATH.BLOGS + '/' + blog2.id)
+                .send(blogUpdateInput)
                 .expect(401)
 
             expect(res.body).toEqual({error: 'Authentication required'})
 
             const res2 = await req
-                .put(SETTINGS.PATH.BLOGS + '/' + blog1.id)
-                .set('Authorization', 'Basic ' + codedAuth + '1234')//req.headers['authorization'] = Basic YWRtaW46cXdlcnR5
-                .send(blogInput)
+                .put(SETTINGS.PATH.BLOGS + '/' + blog2.id)
+                .set('Authorization', 'Basic ' + codedAuth + '1234')
+                .send(blogUpdateInput)
                 .expect(401)
 
             expect(res2.body).toEqual({error: 'wrong login or password'})
@@ -311,17 +321,16 @@ describe('/blogs', () => {
 
         it('Should return status 404, Not Found', async () => {
             await req
-                .put(SETTINGS.PATH.BLOGS + nonExistentBlogId)
-                .set('Authorization', 'Basic ' + codedAuth)//req.headers['authorization'] = Basic YWRtaW46cXdlcnR5
+                .put(SETTINGS.PATH.BLOGS + nonExistentMongoId)
+                .set('Authorization', 'Basic ' + codedAuth)
                 .send(blogUpdateInput)
                 .expect(404)
 
             const getRes = await req
-                .get(SETTINGS.PATH.BLOGS)
+                .get(SETTINGS.PATH.BLOGS + '/' + blog2.id)
                 .expect(200)
 
-            expect(getRes.body.items.length).toBe(1);
-            expect(getRes.body.items).toEqual(expect.arrayContaining([blog1]));
+            expect(getRes.body).toEqual(expect.objectContaining(blogInput))
         })
     })
 
@@ -365,7 +374,7 @@ describe('/blogs', () => {
 
         it('Should return status 404, not found', async () => {
             await req
-                .delete(SETTINGS.PATH.BLOGS + nonExistentBlogId)
+                .delete(SETTINGS.PATH.BLOGS + nonExistentMongoId)
                 .set('Authorization', 'Basic ' + codedAuth)
                 .expect(404)
 
