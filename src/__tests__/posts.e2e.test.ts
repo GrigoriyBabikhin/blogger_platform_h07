@@ -10,7 +10,7 @@ import {
 import {client, connectToDB} from "../db/mongo-db";
 import {PostViewModel} from "../input-output-types/post-types";
 import {BlogViewModel} from "../input-output-types/blogs-types";
-import {clearDB, codedAuth, createdString} from "./helpers/utilities";
+import {clearDB, codedAuth} from "./helpers/utilities";
 
 describe('/posts', () => {
     beforeAll(async () => {
