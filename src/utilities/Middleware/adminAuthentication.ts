@@ -1,11 +1,10 @@
 import {Request, Response, NextFunction} from "express";
-import {SETTINGS} from "../settings";
+import {SETTINGS} from "../../settings";
 
 export const codedAuthBase64 = (code: string) => {
     //это для авторизации
     const buff2 = Buffer.from(SETTINGS.ADMIN_AUTH)
-    const codedAuth = buff2.toString('base64')
-    return codedAuth
+    return buff2.toString('base64')
 }
 
 export const adminAuthentication = (req: Request, res: Response, next: NextFunction) => {
