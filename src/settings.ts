@@ -8,13 +8,14 @@ export const SETTINGS = {
     PATH: {
         TESTING: '/testing/all-data',
         BLOGS: '/blogs',
-        POSTS: '/posts'
+        POSTS: '/posts',
+        USERS: '/users'
     },
     ADMIN_AUTH: 'admin:qwerty',
     DB_NAME: "Blogger-Platform",
     BLOG_COLLECTION_NAME: 'blogCollection',
-    POST_COLLECTION_NAME: 'postCollection'
-
+    POST_COLLECTION_NAME: 'postCollection',
+    USER_COLLECTION_NAME: 'userCollection'
 }
 //admin\qwerty
 //"/testing/all-data"
