@@ -1,6 +1,6 @@
 import {Router} from "express";
 import {postIdValidations, postInputValidations} from "./postInputValidations";
-import {adminAuthentication} from "../../global-middiewares/adminAuthentication";
+import {adminAuthentication} from "../../utilities/Middleware/adminAuthentication";
 import {postsController} from "./2_postsController";
 
 export const postsRouter = Router()

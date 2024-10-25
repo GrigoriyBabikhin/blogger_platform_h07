@@ -1,5 +1,5 @@
 import {body, param} from "express-validator";
-import {inputCheckErrorsMiddleware} from "../../global-middiewares/inputCheckErrorsMiddleware";
+import {inputCheckErrorsMid} from "../../utilities/Middleware/inputCheckErrors/inputCheckErrorsMid";
 import {blogMongoQueryRepository} from "../blogs/repository/blogMongoQueryRepository";
 
 
@@ -8,14 +8,14 @@ export const postInputValidations = () => [
         shortDescriptionValidation,
         contentValidation,
         blogIdBodyValidation,
-        inputCheckErrorsMiddleware,
+        inputCheckErrorsMid,
     ]
 
 export const postIdValidations = () => [
-    postIdParamValidation, inputCheckErrorsMiddleware
+    postIdParamValidation, inputCheckErrorsMid
     ]
 export const PostInputByBlogValidations = () => [
-    titleValidation, shortDescriptionValidation, contentValidation, inputCheckErrorsMiddleware
+    titleValidation, shortDescriptionValidation, contentValidation, inputCheckErrorsMid
 ]
 
 export const blogIdBodyValidation = body('blogId')
