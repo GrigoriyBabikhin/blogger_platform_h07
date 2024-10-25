@@ -1,6 +1,6 @@
 import {Router} from "express";
 import {blogsInputValidations, blogIdParamValidations} from "./blogsInputValidations";
-import {adminAuthentication} from "../../global-middiewares/adminAuthentication";
+import {adminAuthentication} from "../../utilities/Middleware/adminAuthentication";
 import {blogsController} from "./2_blogsController";
 import {PostInputByBlogValidations} from "../posts/postInputValidations";
 

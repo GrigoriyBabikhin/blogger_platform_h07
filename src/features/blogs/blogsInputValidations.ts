@@ -1,12 +1,12 @@
 import {body, param} from "express-validator";
-import {inputCheckErrorsMiddleware} from "../../global-middiewares/inputCheckErrorsMiddleware";
+import {inputCheckErrorsMid} from "../../utilities/Middleware/inputCheckErrors/inputCheckErrorsMid";
 
 export const blogsInputValidations = () => [
-    nameValidation, descriptionValidation, websiteUrlValidation, inputCheckErrorsMiddleware
+    nameValidation, descriptionValidation, websiteUrlValidation, inputCheckErrorsMid
 ]
 
 export const blogIdParamValidations = () => [
-    blogIdParamValidation, inputCheckErrorsMiddleware
+    blogIdParamValidation, inputCheckErrorsMid
 ]
 
 export const descriptionValidation = body('description')

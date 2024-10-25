@@ -1,8 +1,8 @@
 import {ObjectId, WithId} from "mongodb";
 import {BlogsDbType} from "../blogs-type";
 import {BlogViewModel} from "../../../input-output-types/blogs-types";
-import {Paginator} from "../../../input-output-types/paginator-type";
-import {getPaginationAndSortOptions, SortingQueryField} from "../../utilities/paginationAndSorting";
+import {Paginator} from "../../../utilities/paginationAndSorting/paginator-type";
+import {getPaginationAndSortOptions, SortingQueryField} from "../../../utilities/paginationAndSorting/paginationAndSorting";
 import {blogCollection} from "../../../db/mongo-db";
 
 export const mapBlogToView = (blog: WithId<BlogsDbType>): BlogViewModel => {

@@ -1,6 +1,6 @@
 import {Request, Response} from "express";
-import {SortingQueryField} from "../utilities/paginationAndSorting";
-import {Paginator} from "../../input-output-types/paginator-type";
+import {SortingQueryField} from "../../utilities/paginationAndSorting/paginationAndSorting";
+import {Paginator} from "../../utilities/paginationAndSorting/paginator-type";
 import {BlogInputModel, BlogViewModel} from "../../input-output-types/blogs-types";
 import {blogMongoQueryRepository} from "./repository/blogMongoQueryRepository";
 import {blogsService} from "./3_blogsService";
