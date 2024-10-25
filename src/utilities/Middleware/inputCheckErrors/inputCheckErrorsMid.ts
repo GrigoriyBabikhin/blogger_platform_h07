@@ -1,8 +1,8 @@
 import {NextFunction, Request, Response} from "express";
 import {validationResult} from "express-validator";
-import {APIErrorResult, FieldError} from "../input-output-types/output-errors-type";
+import {APIErrorResult, FieldError} from "./output-errors-type";
 
-export const inputCheckErrorsMiddleware = (
+export const inputCheckErrorsMid = (
     req: Request,
     res: Response,
     next: NextFunction) => {
