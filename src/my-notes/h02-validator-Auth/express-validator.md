@@ -13,7 +13,7 @@ array(options?: { onlyFirstError?: boolean }): T[]
 import {NextFunction, Request, Response} from "express";
 import {validationResult} from "express-validator";
 
-export const inputCheckErrorsMiddleware = (
+export const inputCheckErrorsMid = (
     req: Request,
     res: Response,
     next: NextFunction) => {
