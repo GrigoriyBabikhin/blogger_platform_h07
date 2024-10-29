@@ -5,5 +5,5 @@ import {userBodyValidations} from "./usersInputValidations";
 
 export const usersRouter = Router({})
 
-usersRouter.get('/', usersController.getAllUsers)
+usersRouter.get('/', adminAuthentication, usersController.getAllUsers)
 usersRouter.post('/', adminAuthentication, ...userBodyValidations(), usersController.createUser)
