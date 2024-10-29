@@ -5,8 +5,7 @@ import {usersService} from "./3_usersService";
 import {usersMongoQueryRepository} from "./repository/usersMongoQueryRepository";
 import {ResultStatus} from "../../utilities/resultError/resultStatus";
 import {ErrorMessage} from "../../utilities/resultError/resultType";
-import {Paginator} from "../../utilities/paginationAndSorting/paginator-type";
-import {SortingQueryField} from "../../utilities/paginationAndSorting/paginationAndSorting";
+import {Paginator, SortingQueryField} from "../../utilities/paginationAndSorting/paginator-type";
 
 export const usersController = {
     async getAllUsers(
@@ -28,9 +27,8 @@ export const usersController = {
         if (status === ResultStatus.BadRequest) {
             res.status(400).json(errorsMessages)
         }
-        console.log('data ', data )
+
         const mapUser = await usersMongoQueryRepository.findUserId(data!)
-        console.log('mapUser ', mapUser)
         return res.status(201).json(mapUser!)
     },
 }

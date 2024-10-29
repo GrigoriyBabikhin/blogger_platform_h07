@@ -3,19 +3,22 @@ import {ObjectId, WithId} from "mongodb";
 import {UserViewModel} from "../types/userViewModel";
 import {UsersDbModel} from "../types/usersDbModel";
 import {
-    getPaginationAndSortOptions,
-    SortingQueryField
+    getPaginationAndSortOptions
 } from "../../../utilities/paginationAndSorting/paginationAndSorting";
-import {Paginator} from "../../../utilities/paginationAndSorting/paginator-type";
-
-
+import {Paginator, SortingQueryField, SortingQueryFilter} from "../../../utilities/paginationAndSorting/paginator-type";
 
 export const usersMongoQueryRepository = {
     async getAll(query: SortingQueryField): Promise<Paginator<UserViewModel[]>> {
         const processedQuery = getPaginationAndSortOptions(query);
-        const filter = processedQuery.searchNameTerm
-            ? {name: {$regex: processedQuery.searchNameTerm, $options: 'i'}}
-            : {};
+        const filter =
+            {
+                $or: [
+                    {login: {$regex: processedQuery.searchLoginTerm ?? "", $options: 'i'}},
+                    {email: {$regex: processedQuery.searchEmailTerm ?? "", $options: 'i'}}
+                ]
+            }
+
+
         const users = await userCollection
             .find(filter)
             .sort(processedQuery.sortBy, processedQuery.sortDirection)
@@ -29,7 +32,7 @@ export const usersMongoQueryRepository = {
             'page': processedQuery.pageNumber,
             'pageSize': processedQuery.pageSize,
             'totalCount': totalCount,
-            'items': users.map(user=> this._mapUserToView(user))
+            'items': users.map(user => this._mapUserToView(user))
         }
     },
 
@@ -39,7 +42,7 @@ export const usersMongoQueryRepository = {
         return user ? await this._mapUserToView(user) : null
     },
 
-    _mapUserToView (user: WithId<UsersDbModel>): UserViewModel {
+    _mapUserToView(user: WithId<UsersDbModel>): UserViewModel {
         return {
             id: user._id.toString(),
             login: user.login,

@@ -1,4 +1,4 @@
-import {codedAuthBase64} from "../../global-middiewares/adminAuthentication";
+import {codedAuthBase64} from "../../utilities/Middleware/adminAuthentication";
 import {SETTINGS} from "../../settings";
 import {req} from "./test-helpers";
 

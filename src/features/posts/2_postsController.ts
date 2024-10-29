@@ -1,8 +1,7 @@
 import {Request, Response} from "express";
 import {PostInputModel, PostViewModel} from "../../input-output-types/post-types";
-import {SortingQueryField} from "../../utilities/paginationAndSorting/paginationAndSorting";
 import {postsMongoQueryRepository} from "./repsitory/postsMongoQueryRepository";
-import {Paginator} from "../../utilities/paginationAndSorting/paginator-type";
+import {Paginator, SortingQueryField} from "../../utilities/paginationAndSorting/paginator-type";
 import {postsService} from "./3_postsServese";
 
 export const postsController = {
