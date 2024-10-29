@@ -1,11 +1,11 @@
-import {blogCollection, userCollection} from "../../../db/mongo-db";
+import {userCollection} from "../../../db/mongo-db";
 import {ObjectId, WithId} from "mongodb";
 import {UserViewModel} from "../types/userViewModel";
 import {UsersDbModel} from "../types/usersDbModel";
 import {
     getPaginationAndSortOptions
 } from "../../../utilities/paginationAndSorting/paginationAndSorting";
-import {Paginator, SortingQueryField, SortingQueryFilter} from "../../../utilities/paginationAndSorting/paginator-type";
+import {Paginator, SortingQueryField} from "../../../utilities/paginationAndSorting/paginator-type";
 
 export const usersMongoQueryRepository = {
     async getAll(query: SortingQueryField): Promise<Paginator<UserViewModel[]>> {
