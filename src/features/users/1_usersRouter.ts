@@ -7,3 +7,4 @@ export const usersRouter = Router({})
 
 usersRouter.get('/', adminAuthentication, usersController.getAllUsers)
 usersRouter.post('/', adminAuthentication, ...userBodyValidations(), usersController.createUser)
+usersRouter.delete('/:userId', adminAuthentication, usersController.deleteUser)
