@@ -1,5 +1,5 @@
 import {UsersDbModel} from "../types/usersDbModel";
-import {postCollection, userCollection} from "../../../db/mongo-db";
+import {userCollection} from "../../../db/mongo-db";
 import {ObjectId, WithId} from "mongodb";
 
 export const usersMongoRepository = {
