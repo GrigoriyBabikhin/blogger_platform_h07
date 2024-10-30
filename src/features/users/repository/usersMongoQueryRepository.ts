@@ -10,14 +10,18 @@ import {Paginator, SortingQueryField} from "../../../utilities/paginationAndSort
 export const usersMongoQueryRepository = {
     async getAll(query: SortingQueryField): Promise<Paginator<UserViewModel[]>> {
         const processedQuery = getPaginationAndSortOptions(query);
-        const filter =
-            {
-                $or: [
-                    {login: {$regex: processedQuery.searchLoginTerm ?? "", $options: 'i'}},
-                    {email: {$regex: processedQuery.searchEmailTerm ?? "", $options: 'i'}}
-                ]
-            }
+        const filter: any = {$or: []}
+        if (processedQuery.searchLoginTerm) {
+            filter.$or.push({login: {$regex: processedQuery.searchLoginTerm, $options: 'i'}})
+        }
 
+        if (processedQuery.searchEmailTerm) {
+            filter.$or.push({email: {$regex: processedQuery.searchEmailTerm, $options: 'i'}})
+        }
+
+        if (filter.$or.length === 0) {
+            delete filter.$or
+        }
 
         const users = await userCollection
             .find(filter)

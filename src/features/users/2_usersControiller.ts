@@ -11,7 +11,7 @@ export const usersController = {
     async getAllUsers(
         req: Request<any, any, any, SortingQueryField>,
         res: Response<Paginator<UserViewModel[]>>
-    ){
+    ) {
         const users = await usersMongoQueryRepository.getAll(req.query)
         return res.status(200).json(users)
     },
@@ -30,5 +30,16 @@ export const usersController = {
 
         const mapUser = await usersMongoQueryRepository.findUserId(data!)
         return res.status(201).json(mapUser!)
+    },
+
+    async delete(
+        req: Request<{ id: string }>,
+        res: Response<string | ErrorMessage>) {
+        const isDeleted = await usersService.delete(req.params.id)
+
+        const {status, errorsMessages} = isDeleted
+        if (status === ResultStatus.NotFound) return res.status(404).json(errorsMessages)
+
+        return res.status(204).json()
     },
 }
