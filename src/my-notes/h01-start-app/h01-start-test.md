@@ -43,14 +43,14 @@ describe('/videos', () => {
         const res = await req
             .get(SETTINGS.PATH.VIDEOS)
             .expect(200, [])
-        //console.log('Must return the video:', res.body)
+       
     })
 
     it('Return 404 if there is no video', async () => {
         const res = await req
             .get(SETTINGS.PATH.VIDEOS + '/1')
             .expect(404)
-        //console.log('Return 404 if there is no video', res.body)
+      
     })
 })
 
