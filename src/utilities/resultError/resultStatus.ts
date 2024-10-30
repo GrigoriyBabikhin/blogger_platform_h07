@@ -5,4 +5,5 @@ export enum ResultStatus {
     Unauthorized = 3,
     BadRequest = 4,
     Created = 5,
+    NoContent = 6,
 }
