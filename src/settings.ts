@@ -9,7 +9,8 @@ export const SETTINGS = {
         TESTING: '/testing/all-data',
         BLOGS: '/blogs',
         POSTS: '/posts',
-        USERS: '/users'
+        USERS: '/users',
+        AUTH: '/auth'
     },
     ADMIN_AUTH: 'admin:qwerty',
     DB_NAME: "Blogger-Platform",
