@@ -10,7 +10,7 @@ import {Paginator, SortingQueryField} from "../../../utilities/paginationAndSort
 export const usersMongoQueryRepository = {
     async getAll(query: SortingQueryField): Promise<Paginator<UserViewModel[]>> {
         const processedQuery = getPaginationAndSortOptions(query);
-        const filter: any = {$or: []}
+        const filter: any = {$or: []} //todo: посмотреть типизацию.
         if (processedQuery.searchLoginTerm) {
             filter.$or.push({login: {$regex: processedQuery.searchLoginTerm, $options: 'i'}})
         }

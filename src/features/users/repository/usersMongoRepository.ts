@@ -25,6 +25,14 @@ export const usersMongoRepository = {
         })
     },
 
+    async checkLoginOrEmail(loginOrEmail: string): Promise<WithId<UsersDbModel> | null> {
+        return userCollection.findOne({
+            $or: [
+                {email: loginOrEmail}, {login: loginOrEmail}
+            ]
+        })
+    },
+
     async delete(id: string): Promise<boolean> {
         if (!this._checkObjectId(id)) return false;
         const isDelete = await userCollection.deleteOne({_id: new ObjectId(id)})
