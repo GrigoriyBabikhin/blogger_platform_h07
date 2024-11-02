@@ -26,6 +26,7 @@ export const usersController = {
         const {status, data, errorsMessages} = userId
         if (status === ResultStatus.BadRequest) {
             res.status(400).json(errorsMessages)
+            return
         }
 
         const mapUser = await usersMongoQueryRepository.findUserId(data!)
@@ -38,7 +39,11 @@ export const usersController = {
         const isDeleted = await usersService.delete(req.params.id)
 
         const {status, errorsMessages} = isDeleted
-        if (status === ResultStatus.NotFound) return res.status(404).json(errorsMessages)
+        if (status === ResultStatus.NotFound) {
+            res.status(404).json(errorsMessages)
+            return
+        }
+
 
         return res.status(204).json()
     },
