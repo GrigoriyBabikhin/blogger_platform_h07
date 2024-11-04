@@ -5,7 +5,6 @@ import {UserInputModel} from "./types/userInputModel";
 import {ResultStatus} from "../../utilities/resultError/resultStatus";
 import {Result} from "../../utilities/resultError/resultType";
 
-
 export const usersService = {
     async createUser(userInput: UserInputModel): Promise<Result<string | null>> {
         const {login, email, password} = userInput
@@ -28,7 +27,7 @@ export const usersService = {
             login,
             email,
             passwordHash,
-            createdAt: new Date().toString(),
+            createdAt: new Date().toISOString(),
         }
 
         const userId = await usersMongoRepository.createUser(newUser)
