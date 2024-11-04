@@ -20,9 +20,12 @@ export const passwordBodyValidations = body('password')
 export const emailBodyValidations = body('email')
     .isString()
     .trim()
-    .isLength({min: 1, max: 500})
+    .isLength({ min: 1 })
+    .withMessage({ message: 'The field cannot be empty', field: 'email' }) // Сообщение для пустых строк
+    .bail() // Останавливает проверку, если предыдущая проверка не пройдена
     .isEmail()
-    .withMessage({message: 'string of 1 to 500 symbol.', field: 'email'})
+    .withMessage({ message: 'The field must contain a valid email address', field: 'email' }); // Сообщение для неверного формата
+
 
 export const loginOrEmailValidations = body('loginOrEmail')
     .isString()
