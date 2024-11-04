@@ -11,11 +11,7 @@ export const authService = {
         const existingUser = await usersMongoRepository.checkLoginOrEmail(loginOrEmail)
         if (!existingUser) {
             return {
-                status: ResultStatus.NotFound,
-                errorsMessages: [{
-                    message: 'such login or email does not exist',
-                    field: 'loginOrEmail'
-                }],
+                status: ResultStatus.Unauthorized,
                 data: null
             }
         }
