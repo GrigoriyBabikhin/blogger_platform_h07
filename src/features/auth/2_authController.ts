@@ -11,12 +11,7 @@ export const authController = {
         const {loginOrEmail, password} = req.body
         const userLogin = await authService.loginUser({loginOrEmail, password})
 
-        const {status, errorsMessages} = userLogin
-
-        if(status === ResultStatus.NotFound) {
-            res.status(400).json({errorsMessages})
-            return
-        }
+        const {status} = userLogin
 
         if(status === ResultStatus.Unauthorized) {
             res.status(401).json()
