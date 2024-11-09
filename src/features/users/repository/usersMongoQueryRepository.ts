@@ -6,6 +6,7 @@ import {
     getPaginationAndSortOptions
 } from "../../../utilities/paginationAndSorting/paginationAndSorting";
 import {Paginator, SortingQueryField} from "../../../utilities/paginationAndSorting/paginator-type";
+import {LoginSuccessViewModel} from "../../../utilities/jwtService/jwtModel";
 
 export const usersMongoQueryRepository = {
     async getAll(query: SortingQueryField): Promise<Paginator<UserViewModel[]>> {
@@ -44,6 +45,12 @@ export const usersMongoQueryRepository = {
         if (!this._checkObjectId(userId)) return null
         let user = await userCollection.findOne({_id: new ObjectId(userId)})
         return user ? await this._mapUserToView(user) : null
+    },
+
+    async accessTokenDTO(jwt: string): Promise<LoginSuccessViewModel> {
+        return {
+            accessToken: jwt
+        }
     },
 
     _mapUserToView(user: WithId<UsersDbModel>): UserViewModel {

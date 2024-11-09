@@ -1,5 +1,5 @@
 import {req} from "./helpers/test-helpers";
-import {SETTINGS} from "../settings";
+import {appConfig} from "../appConfig";
 import {
     blogInput,
     blogUpdateInput,
@@ -31,7 +31,7 @@ describe('/blogs', () => {
         it('Should return empty array and status 200', async () => {
             await clearDB()
             const res = await req
-                .get(SETTINGS.PATH.BLOGS)
+                .get(appConfig.PATH.BLOGS)
                 .expect(200)
 
             expect(res.body.items.length).toBe(0);
@@ -49,7 +49,7 @@ describe('/blogs', () => {
         it('Should create new blog and return status 201.', async () => {
             await clearDB()
             const res = await req
-                .post(SETTINGS.PATH.BLOGS)
+                .post(appConfig.PATH.BLOGS)
                 .set('Authorization', 'Basic ' + codedAuth)
                 .send(blogInput)
                 .expect(201)
@@ -60,7 +60,7 @@ describe('/blogs', () => {
 
         it('Should return status 400 if the input data is invalid', async () => {
             const res = await req
-                .post(SETTINGS.PATH.BLOGS)
+                .post(appConfig.PATH.BLOGS)
                 .set('Authorization', 'Basic ' + codedAuth)
                 .send(blogInvalidURLInput)
                 .expect(400)
@@ -68,7 +68,7 @@ describe('/blogs', () => {
             expect(res.body.errorsMessages[0].field).toEqual('websiteUrl')
 
             const createBlog = await req
-                .post(SETTINGS.PATH.BLOGS)
+                .post(appConfig.PATH.BLOGS)
                 .set('Authorization', 'Basic ' + codedAuth)
                 .send(blogInvalidLengthStingInput).expect(400)
 
@@ -81,14 +81,14 @@ describe('/blogs', () => {
 
         it('Should return status 401 not authorized', async () => {
             const res = await req
-                .post(SETTINGS.PATH.BLOGS)
+                .post(appConfig.PATH.BLOGS)
                 .send(blogInput)
                 .expect(401)
 
             expect(res.body).toEqual({error: 'Authentication required'})
 
             const res2 = await req
-                .post(SETTINGS.PATH.BLOGS)
+                .post(appConfig.PATH.BLOGS)
                 .set('Authorization', 'Basic ' + codedAuth + '1234')//req.headers['authorization'] = Basic YWRtaW46cXdlcnR5
                 .send(blogInput)
                 .expect(401)
@@ -96,7 +96,7 @@ describe('/blogs', () => {
             expect(res2.body).toEqual({error: 'wrong login or password'})
 
             const getRes = await req
-                .get(SETTINGS.PATH.BLOGS)
+                .get(appConfig.PATH.BLOGS)
                 .expect(200)
 
             expect(getRes.body.items.length).toBe(1);
@@ -108,28 +108,28 @@ describe('/blogs', () => {
         it('Should return status 200,', async () => {
             await clearDB()
             const createBlog = await req
-                .post(SETTINGS.PATH.BLOGS)
+                .post(appConfig.PATH.BLOGS)
                 .set('Authorization', 'Basic ' + codedAuth)
                 .send(blogInput)
                 .expect(201)
             blog1 = createBlog.body
 
             const createPost = await req
-                .post(`${SETTINGS.PATH.BLOGS}/${blog1.id}/posts`)
+                .post(`${appConfig.PATH.BLOGS}/${blog1.id}/posts`)
                 .set('Authorization', 'Basic ' + codedAuth)
                 .send(postByBlogInput)
                 .expect(201)
             post1 = createPost.body
 
             const createPost2 = await req
-                .post(`${SETTINGS.PATH.BLOGS}/${blog1.id}/posts`)
+                .post(`${appConfig.PATH.BLOGS}/${blog1.id}/posts`)
                 .set('Authorization', 'Basic ' + codedAuth)
                 .send(postByBlogInput)
                 .expect(201)
             post2 = createPost2.body
 
             const res = await req
-                .get(`${SETTINGS.PATH.BLOGS}/${blog1.id}/posts`)
+                .get(`${appConfig.PATH.BLOGS}/${blog1.id}/posts`)
                 .expect(200)
 
             expect(res.body.items.length).toBe(2);
@@ -145,7 +145,7 @@ describe('/blogs', () => {
 
         it('Should return status 404, if the blog is not found', async () => {
             await req
-                .get(`${SETTINGS.PATH.BLOGS}/${nonExistentMongoId}/posts`)
+                .get(`${appConfig.PATH.BLOGS}/${nonExistentMongoId}/posts`)
                 .expect(404)
         })
     })
@@ -154,14 +154,14 @@ describe('/blogs', () => {
         it('Should return status 201, post has been created.', async () => {
             await clearDB()
             const createBlog = await req
-                .post(SETTINGS.PATH.BLOGS)
+                .post(appConfig.PATH.BLOGS)
                 .set('Authorization', 'Basic ' + codedAuth)
                 .send(blogInput)
                 .expect(201)
             blog1 = createBlog.body
 
             const createPost = await req
-                .post(`${SETTINGS.PATH.BLOGS}/${blog1.id}/posts`)
+                .post(`${appConfig.PATH.BLOGS}/${blog1.id}/posts`)
                 .set('Authorization', 'Basic ' + codedAuth)
                 .send(postByBlogInput)
                 .expect(201)
@@ -178,7 +178,7 @@ describe('/blogs', () => {
 
         it('Should return status 400, input data is not valid.', async () => {
             const res = await req
-                .post(`${SETTINGS.PATH.BLOGS}/${blog1.id}/posts`)
+                .post(`${appConfig.PATH.BLOGS}/${blog1.id}/posts`)
                 .set('Authorization', 'Basic ' + codedAuth)
                 .send(postByBlogInvalidLengthStingInput)
                 .expect(400)
@@ -191,14 +191,14 @@ describe('/blogs', () => {
 
         it('Should return status 401, not authorized', async () => {
             const res = await req
-                .post(`${SETTINGS.PATH.BLOGS}/${blog1.id}/posts`)
+                .post(`${appConfig.PATH.BLOGS}/${blog1.id}/posts`)
                 .send(postByBlogInput)
                 .expect(401)
 
             expect(res.body).toEqual({error: 'Authentication required'})
 
             const res1 = await req
-                .post(`${SETTINGS.PATH.BLOGS}/${blog1.id}/posts`)
+                .post(`${appConfig.PATH.BLOGS}/${blog1.id}/posts`)
                 .set('Authorization', 'Basic ' + +codedAuth + '1234')
                 .send(postByBlogInput)
                 .expect(401)
@@ -208,13 +208,13 @@ describe('/blogs', () => {
 
         it('Should return status 404, not found', async () => {
             await req
-                .post(`${SETTINGS.PATH.BLOGS}/${nonExistentMongoId}/posts`)
+                .post(`${appConfig.PATH.BLOGS}/${nonExistentMongoId}/posts`)
                 .set('Authorization', 'Basic ' + codedAuth)
                 .send(postByBlogInput)
                 .expect(404)
 
             const getRes = await req
-                .get(`${SETTINGS.PATH.BLOGS}/${blog1.id}/posts`)
+                .get(`${appConfig.PATH.BLOGS}/${blog1.id}/posts`)
                 .expect(200)
 
             expect(getRes.body.items.length).toBe(1);
@@ -226,14 +226,14 @@ describe('/blogs', () => {
         it('Should return status 200, search by id', async () => {
             await clearDB()
             const res = await req
-                .post(SETTINGS.PATH.BLOGS)
+                .post(appConfig.PATH.BLOGS)
                 .set('Authorization', 'Basic ' + codedAuth)
                 .send(blogInput)
                 .expect(201)
             blog1 = res.body
 
             const getRes = await req
-                .get(SETTINGS.PATH.BLOGS + '/' + blog1.id)
+                .get(appConfig.PATH.BLOGS + '/' + blog1.id)
                 .expect(200)
 
             expect(getRes.body).toEqual(blog1);
@@ -241,7 +241,7 @@ describe('/blogs', () => {
 
         it('Should return status 404, search by id', async () => {
             await req
-                .get(SETTINGS.PATH.BLOGS + nonExistentMongoId)
+                .get(appConfig.PATH.BLOGS + nonExistentMongoId)
                 .expect(404)
         })
     })
@@ -250,14 +250,14 @@ describe('/blogs', () => {
         it('Should return status 204, if the update data is valid', async () => {
             await clearDB()
             const createBlog = await req
-                .post(SETTINGS.PATH.BLOGS)
+                .post(appConfig.PATH.BLOGS)
                 .set('Authorization', 'Basic ' + codedAuth)
                 .send(blogInput)
                 .expect(201)
             blog1 = createBlog.body
 
             const createBlog2 = await req
-                .post(SETTINGS.PATH.BLOGS)
+                .post(appConfig.PATH.BLOGS)
                 .set('Authorization', 'Basic ' + codedAuth)
                 .send(blogInput)
                 .expect(201)
@@ -267,13 +267,13 @@ describe('/blogs', () => {
             expect(blog2).toEqual(expect.objectContaining(blogInput))
 
             await req
-                .put(SETTINGS.PATH.BLOGS + '/' + blog1.id)
+                .put(appConfig.PATH.BLOGS + '/' + blog1.id)
                 .set('Authorization', 'Basic ' + codedAuth)
                 .send(blogUpdateInput)
                 .expect(204)
 
             const updateBlog = await req
-                .get(SETTINGS.PATH.BLOGS + '/' + blog1.id)
+                .get(appConfig.PATH.BLOGS + '/' + blog1.id)
                 .expect(200)
             blog1 = updateBlog.body
 
@@ -282,7 +282,7 @@ describe('/blogs', () => {
 
         it('Should return status 400, if the input data is invalid', async () => {
             const res = await req
-                .put(SETTINGS.PATH.BLOGS + '/' + blog2.id)
+                .put(appConfig.PATH.BLOGS + '/' + blog2.id)
                 .set('Authorization', 'Basic ' + codedAuth)
                 .send(blogInvalidURLInput)
                 .expect(400)
@@ -290,7 +290,7 @@ describe('/blogs', () => {
             expect(res.body.errorsMessages[0].field).toEqual('websiteUrl')
 
             const res2 = await req
-                .put(SETTINGS.PATH.BLOGS + '/' + blog2.id)
+                .put(appConfig.PATH.BLOGS + '/' + blog2.id)
                 .set('Authorization', 'Basic ' + codedAuth)
                 .send(blogInvalidLengthStingInput)
                 .expect(400)
@@ -304,14 +304,14 @@ describe('/blogs', () => {
 
         it('Should return status 401, not authorized', async () => {
             const res = await req
-                .put(SETTINGS.PATH.BLOGS + '/' + blog2.id)
+                .put(appConfig.PATH.BLOGS + '/' + blog2.id)
                 .send(blogUpdateInput)
                 .expect(401)
 
             expect(res.body).toEqual({error: 'Authentication required'})
 
             const res2 = await req
-                .put(SETTINGS.PATH.BLOGS + '/' + blog2.id)
+                .put(appConfig.PATH.BLOGS + '/' + blog2.id)
                 .set('Authorization', 'Basic ' + codedAuth + '1234')
                 .send(blogUpdateInput)
                 .expect(401)
@@ -321,13 +321,13 @@ describe('/blogs', () => {
 
         it('Should return status 404, Not Found', async () => {
             await req
-                .put(SETTINGS.PATH.BLOGS + nonExistentMongoId)
+                .put(appConfig.PATH.BLOGS + nonExistentMongoId)
                 .set('Authorization', 'Basic ' + codedAuth)
                 .send(blogUpdateInput)
                 .expect(404)
 
             const getRes = await req
-                .get(SETTINGS.PATH.BLOGS + '/' + blog2.id)
+                .get(appConfig.PATH.BLOGS + '/' + blog2.id)
                 .expect(200)
 
             expect(getRes.body).toEqual(expect.objectContaining(blogInput))
@@ -338,26 +338,26 @@ describe('/blogs', () => {
         it('Should return status 204, upon successful delete', async () => {
             await clearDB()
             const res = await req
-                .post(SETTINGS.PATH.BLOGS)
+                .post(appConfig.PATH.BLOGS)
                 .set('Authorization', 'Basic ' + codedAuth)
                 .send(blogInput)
                 .expect(201)
             blog1 = res.body
 
             const res2 = await req
-                .post(SETTINGS.PATH.BLOGS)
+                .post(appConfig.PATH.BLOGS)
                 .set('Authorization', 'Basic ' + codedAuth)
                 .send(blogInput)
                 .expect(201)
             blog2 = res2.body
 
             await req
-                .delete(SETTINGS.PATH.BLOGS + '/' + blog1.id)
+                .delete(appConfig.PATH.BLOGS + '/' + blog1.id)
                 .set('Authorization', 'Basic ' + codedAuth)
                 .expect(204)
 
             const getRes = await req
-                .get(SETTINGS.PATH.BLOGS)
+                .get(appConfig.PATH.BLOGS)
                 .expect(200)
 
             expect(getRes.body.items.length).toBe(1);
@@ -366,7 +366,7 @@ describe('/blogs', () => {
 
         it('Should return status 401, not authorized', async () => {
             const res = await req
-                .delete(SETTINGS.PATH.BLOGS + '/' + blog2.id)
+                .delete(appConfig.PATH.BLOGS + '/' + blog2.id)
                 .expect(401)
 
             expect(res.body).toEqual({error: 'Authentication required'})
@@ -374,12 +374,12 @@ describe('/blogs', () => {
 
         it('Should return status 404, not found', async () => {
             await req
-                .delete(SETTINGS.PATH.BLOGS + nonExistentMongoId)
+                .delete(appConfig.PATH.BLOGS + nonExistentMongoId)
                 .set('Authorization', 'Basic ' + codedAuth)
                 .expect(404)
 
             const getRes = await req
-                .get(SETTINGS.PATH.BLOGS)
+                .get(appConfig.PATH.BLOGS)
                 .expect(200)
 
             expect(getRes.body.items.length).toBe(1);

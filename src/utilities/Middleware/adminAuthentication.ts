@@ -1,9 +1,9 @@
 import {Request, Response, NextFunction} from "express";
-import {SETTINGS} from "../../settings";
+import {appConfig} from "../../appConfig";
 
 export const codedAuthBase64 = (code: string) => {
     //это для авторизации
-    const buff2 = Buffer.from(SETTINGS.ADMIN_AUTH)
+    const buff2 = Buffer.from(appConfig.ADMIN_AUTH)
     return buff2.toString('base64')
 }
 
@@ -20,7 +20,7 @@ export const adminAuthentication = (req: Request, res: Response, next: NextFunct
     const buff = Buffer.from(auth.slice(6), 'base64')
     const decodedAuth = buff.toString('utf8') //decodedAuth:admin:qwerty
 
-    const buff2 = Buffer.from(SETTINGS.ADMIN_AUTH, 'utf8')
+    const buff2 = Buffer.from(appConfig.ADMIN_AUTH, 'utf8')
     const codedAuth = buff2.toString('base64')//codedAuth: YWRtaW46cXdlcnR5
 
 
@@ -29,7 +29,7 @@ export const adminAuthentication = (req: Request, res: Response, next: NextFunct
         return;
     }
 
-    if (decodedAuth === SETTINGS.ADMIN_AUTH || auth.slice(0, 5) !== 'Basic') {
+    if (decodedAuth === appConfig.ADMIN_AUTH || auth.slice(0, 5) !== 'Basic') {
         next()
     }
 

@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt'
-import {bcryptService} from "../../utilities/bcryptService";
+import {passwordService} from "../../utilities/passwordService";
 import {usersMongoRepository} from "./repository/usersMongoRepository";
 import {UserInputModel} from "./types/userInputModel";
 import {ResultStatus} from "../../utilities/resultError/resultStatus";
@@ -21,7 +21,7 @@ export const usersService = {
             }
         }
 
-        const passwordHash = await bcryptService.hashPassword(password)
+        const passwordHash = await passwordService.hashPassword(password)
 
         const newUser = {
             login,

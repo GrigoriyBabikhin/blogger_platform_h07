@@ -2,7 +2,8 @@ import {LoginInputModel} from "./types";
 import {Result} from "../../utilities/resultError/resultType";
 import {usersMongoRepository} from "../users/repository/usersMongoRepository";
 import {ResultStatus} from "../../utilities/resultError/resultStatus";
-import {bcryptService} from "../../utilities/bcryptService";
+import {passwordService} from "../../utilities/passwordService";
+import {jwtService} from "../../utilities/jwtService/jwtService";
 
 
 export const authService = {
@@ -18,7 +19,7 @@ export const authService = {
 
         const hash = existingUser.passwordHash
 
-        const checkPassword = await bcryptService.checkPassword(password, hash)
+        const checkPassword = await passwordService.checkPassword(password, hash)
         if (!checkPassword) {
             return {
                 status: ResultStatus.Unauthorized,
@@ -26,11 +27,12 @@ export const authService = {
             }
         }
 
+        const jwtUser = await jwtService.createToken(existingUser._id.toString())
+
         return {
             status: ResultStatus.Success,
-            data: null
+            data: jwtUser
         }
-
-    }
+    },
 
 }
