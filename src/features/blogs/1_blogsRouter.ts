@@ -1,18 +1,18 @@
 import {Router} from "express";
 import {blogsInputValidations, blogIdParamValidations} from "./blogsInputValidations";
-import {adminAuthentication} from "../../utilities/Middleware/adminAuthentication";
+import {baseAuthGuard} from "../auth/guards/baseAuthGuard";
 import {blogsController} from "./2_blogsController";
 import {PostInputByBlogValidations} from "../posts/postInputValidations";
 
 export const blogsRouter = Router({})
 
 blogsRouter.get('/', blogsController.getAllBlogs)
-blogsRouter.post('/', adminAuthentication, ...blogsInputValidations(), blogsController.createBlog)
+blogsRouter.post('/', baseAuthGuard, ...blogsInputValidations(), blogsController.createBlog)
 blogsRouter.get('/:blogId/posts', ...blogIdParamValidations(), blogsController.getPostsByBlogId)
-blogsRouter.post('/:blogId/posts', adminAuthentication, ...blogIdParamValidations(), ...PostInputByBlogValidations(), blogsController.createPostByBlogId)
+blogsRouter.post('/:blogId/posts', baseAuthGuard, ...blogIdParamValidations(), ...PostInputByBlogValidations(), blogsController.createPostByBlogId)
 blogsRouter.get('/:blogId', ...blogIdParamValidations(), blogsController.getBlogById)
-blogsRouter.put('/:blogId', adminAuthentication, ...blogIdParamValidations(), ...blogsInputValidations(), blogsController.updateBlog)
-blogsRouter.delete('/:blogId', adminAuthentication, ...blogIdParamValidations(), blogsController.deleteBlog)
+blogsRouter.put('/:blogId', baseAuthGuard, ...blogIdParamValidations(), ...blogsInputValidations(), blogsController.updateBlog)
+blogsRouter.delete('/:blogId', baseAuthGuard, ...blogIdParamValidations(), blogsController.deleteBlog)
 
 
 

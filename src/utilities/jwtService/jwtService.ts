@@ -2,12 +2,12 @@ import jwt from "jsonwebtoken"
 import {appConfig} from "../../appConfig";
 
 export const jwtService = {
-   async createToken(userId: string): Promise<string> {
-       return jwt.sign(
-           {userId},
-           appConfig.JWT_SECRET,
-           {expiresIn: appConfig.JWT_EXPIRES} )
-   },
+    async createToken(userId: string): Promise<string> {
+        return jwt.sign(
+            {userId},
+            appConfig.JWT_SECRET,
+            {expiresIn: appConfig.JWT_EXPIRES})
+    },
 
     async decodeToken(token: string): Promise<any> {
         try {
