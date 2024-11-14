@@ -1,10 +1,10 @@
 import {Request, Response} from "express";
 import {Paginator, SortingQueryField} from "../../utilities/paginationAndSorting/paginator-type";
-import {BlogInputModel, BlogViewModel} from "../../input-output-types/blogs-types";
+import {BlogInputModel, BlogViewModel} from "../../utilities/input-output-types/blogs-types";
 import {blogMongoQueryRepository} from "./repository/blogMongoQueryRepository";
 import {blogsService} from "./3_blogsService";
 import {postsMongoQueryRepository} from "../posts/repsitory/postsMongoQueryRepository";
-import {PostInputByBlogModel, PostViewModel} from "../../input-output-types/post-types";
+import {PostInputByBlogModel, PostViewModel} from "../../utilities/input-output-types/post-types";
 import {postsService} from "../posts/3_postsServese";
 import {blogsMongoRepository} from "./repository/blogsMongoRepository";
 

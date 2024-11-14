@@ -8,8 +8,8 @@ import {
     postUpdateInput
 } from "./helpers/dataTest";
 import {client, connectToDB} from "../db/mongo-db";
-import {PostViewModel} from "../input-output-types/post-types";
-import {BlogViewModel} from "../input-output-types/blogs-types";
+import {PostViewModel} from "../utilities/input-output-types/post-types";
+import {BlogViewModel} from "../utilities/input-output-types/blogs-types";
 import {clearDB, codedAuth} from "./helpers/utilities";
 
 describe('/posts', () => {

@@ -20,3 +20,5 @@ export type PostInputByBlogModel = {
     shortDescription: string // max 100
     content: string // max 1000
 }
+
+//todo перенести типы

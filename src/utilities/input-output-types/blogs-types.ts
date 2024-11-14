@@ -12,3 +12,5 @@ export type BlogViewModel = {
     createdAt: string//($date-time)
     isMembership: boolean //True if user has not expired membership subscription to blog
 }
+
+//todo перенести типы

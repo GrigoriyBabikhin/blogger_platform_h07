@@ -1,5 +1,5 @@
 import {Request, Response} from "express";
-import {PostInputModel, PostViewModel} from "../../input-output-types/post-types";
+import {PostInputModel, PostViewModel} from "../../utilities/input-output-types/post-types";
 import {postsMongoQueryRepository} from "./repsitory/postsMongoQueryRepository";
 import {Paginator, SortingQueryField} from "../../utilities/paginationAndSorting/paginator-type";
 import {postsService} from "./3_postsServese";

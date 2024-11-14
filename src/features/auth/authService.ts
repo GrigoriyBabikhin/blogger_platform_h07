@@ -1,4 +1,4 @@
-import {LoginInputModel} from "./types";
+import {LoginInputModel} from "./authModel";
 import {Result} from "../../utilities/resultError/resultType";
 import {usersMongoRepository} from "../users/repository/usersMongoRepository";
 import {ResultStatus} from "../../utilities/resultError/resultStatus";

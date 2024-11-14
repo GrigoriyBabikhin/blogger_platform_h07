@@ -7,6 +7,7 @@ import {
 } from "../../../utilities/paginationAndSorting/paginationAndSorting";
 import {Paginator, SortingQueryField} from "../../../utilities/paginationAndSorting/paginator-type";
 import {LoginSuccessViewModel} from "../../../utilities/jwtService/jwtModel";
+import {MeViewModel} from "../../auth/authModel";
 
 export const usersMongoQueryRepository = {
     async getAll(query: SortingQueryField): Promise<Paginator<UserViewModel[]>> {
@@ -44,7 +45,13 @@ export const usersMongoQueryRepository = {
     async findUserId(userId: string): Promise<UserViewModel | null> {
         if (!this._checkObjectId(userId)) return null
         let user = await userCollection.findOne({_id: new ObjectId(userId)})
-        return user ? await this._mapUserToView(user) : null
+        return user ? this._mapUserToView(user) : null
+    },
+
+    async findUserIdDtoMe(userId: string): Promise<MeViewModel | null> {
+        if (!this._checkObjectId(userId)) return null
+        let user = await userCollection.findOne({_id: new ObjectId(userId)})
+        return user ? this._meDTO(user) : null
     },
 
     async accessTokenDTO(jwt: string): Promise<LoginSuccessViewModel> {
@@ -60,6 +67,14 @@ export const usersMongoQueryRepository = {
             email: user.email,
             createdAt: user.createdAt
         }
+    },
+
+    _meDTO(user: WithId<UsersDbModel>): MeViewModel {
+      return {
+          email: user.email,
+          login: user.login,
+          userId: user._id.toString(),
+      }
     },
 
     _checkObjectId(id: string): boolean {

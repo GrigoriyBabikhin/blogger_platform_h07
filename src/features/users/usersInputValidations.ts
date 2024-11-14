@@ -1,5 +1,5 @@
 import {body} from "express-validator";
-import {inputCheckErrorsMid} from "../../utilities/Middleware/inputCheckErrors/inputCheckErrorsMid";
+import {inputCheckErrorsMid} from "../../utilities/inputCheckErrors/inputCheckErrorsMid";
 
 export const userBodyValidations = () => [
     loginBodyValidations, passwordBodyValidations, emailBodyValidations, inputCheckErrorsMid

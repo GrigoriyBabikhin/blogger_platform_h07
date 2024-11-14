@@ -1,4 +1,4 @@
-import {PostInputByBlogModel, PostInputModel} from "../../input-output-types/post-types";
+import {PostInputByBlogModel, PostInputModel} from "../../utilities/input-output-types/post-types";
 import {postsMongoRepository} from "./repsitory/postsMongoRepository";
 import {blogsMongoRepository} from "../blogs/repository/blogsMongoRepository";
 

@@ -1,5 +1,5 @@
 import {body, param} from "express-validator";
-import {inputCheckErrorsMid} from "../../utilities/Middleware/inputCheckErrors/inputCheckErrorsMid";
+import {inputCheckErrorsMid} from "../../utilities/inputCheckErrors/inputCheckErrorsMid";
 import {blogMongoQueryRepository} from "../blogs/repository/blogMongoQueryRepository";
 
 

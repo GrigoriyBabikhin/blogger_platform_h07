@@ -1,6 +1,6 @@
-import {BlogInputModel} from "../../input-output-types/blogs-types";
+import {BlogInputModel} from "../../utilities/input-output-types/blogs-types";
 import {createdString} from "./utilities";
-import {PostInputByBlogModel, PostInputModel} from "../../input-output-types/post-types";
+import {PostInputByBlogModel, PostInputModel} from "../../utilities/input-output-types/post-types";
 
 export const nonExistentMongoId = '/66f56bb5e952f95dd90e2d11';
 export const blogInput: BlogInputModel = {
