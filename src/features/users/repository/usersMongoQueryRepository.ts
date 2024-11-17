@@ -38,14 +38,14 @@ export const usersMongoQueryRepository = {
             'page': processedQuery.pageNumber,
             'pageSize': processedQuery.pageSize,
             'totalCount': totalCount,
-            'items': users.map(user => this._mapUserToView(user))
+            'items': users.map(user => this._UserDTO(user))
         }
     },
 
     async findUserId(userId: string): Promise<UserViewModel | null> {
         if (!this._checkObjectId(userId)) return null
         let user = await userCollection.findOne({_id: new ObjectId(userId)})
-        return user ? this._mapUserToView(user) : null
+        return user ? this._UserDTO(user) : null
     },
 
     async findUserIdDtoMe(userId: string): Promise<MeViewModel | null> {
@@ -60,7 +60,7 @@ export const usersMongoQueryRepository = {
         }
     },
 
-    _mapUserToView(user: WithId<UsersDbModel>): UserViewModel {
+    _UserDTO(user: WithId<UsersDbModel>): UserViewModel {
         return {
             id: user._id.toString(),
             login: user.login,
