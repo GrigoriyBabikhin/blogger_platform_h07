@@ -1,9 +1,14 @@
-import {PostInputModel} from "../../../utilities/input-output-types/post-types";
+import {PostInputModel} from "../../../utilities/types/post-types";
 import {postCollection} from "../../../db/mongo-db";
 import {ObjectId} from "mongodb";
 import {PostsDbType} from "../post-type";
 
-export const postsMongoRepository = {
+export const postsRepository = {
+    async findPostById(postId: string){
+        if(!this._checkObjectId(postId)) return null
+        const post = await postCollection.findOne({_id: new ObjectId(postId)})
+        return post ? post : null
+    },
 
     async createPost(newPost: PostsDbType): Promise<string | null> {
         const createdPostId = await postCollection.insertOne(newPost)
@@ -30,5 +35,9 @@ export const postsMongoRepository = {
 
     async deleteALLPosts() {
         return await postCollection.drop()
+    },
+
+    _checkObjectId(id: string): boolean {
+        return ObjectId.isValid(id)
     },
 }

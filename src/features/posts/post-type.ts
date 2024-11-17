@@ -7,3 +7,7 @@ export type PostsDbType = {
     blogName: string
     createdAt: string //($date-time)
 }
+
+export type PostId = {
+    postId: string
+}
