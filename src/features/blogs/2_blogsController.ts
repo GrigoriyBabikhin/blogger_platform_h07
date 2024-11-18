@@ -1,12 +1,12 @@
 import {Request, Response} from "express";
 import {Paginator, SortingQueryField} from "../../utilities/paginationAndSorting/paginator-type";
-import {BlogInputModel, BlogViewModel} from "../../utilities/input-output-types/blogs-types";
 import {blogMongoQueryRepository} from "./repository/blogMongoQueryRepository";
 import {blogsService} from "./3_blogsService";
-import {postsMongoQueryRepository} from "../posts/repsitory/postsMongoQueryRepository";
-import {PostInputByBlogModel, PostViewModel} from "../../utilities/input-output-types/post-types";
-import {postsService} from "../posts/3_postsServese";
+import {postsQueryRepository} from "../posts/repsitory/postsQueryRepository";
+import {postsService} from "../posts/3_postsService";
 import {blogsMongoRepository} from "./repository/blogsMongoRepository";
+import {BlogInputModel, BlogViewModel} from "./blogsModel";
+import {PostInputByBlogModel, PostViewModel} from "../posts/post-type";
 
 
 export const blogsController = {
@@ -31,7 +31,7 @@ export const blogsController = {
         res: Response<Paginator<PostViewModel[]> | null>,) {
         const blog = await blogsMongoRepository.findBlogById(req.params.blogId)
         if (!blog) return res.status(404).json()
-        const postsByBlogId = await postsMongoQueryRepository.getAllPosts(req.query, req.params.blogId)
+        const postsByBlogId = await postsQueryRepository.getAllPosts(req.query, req.params.blogId)
         return res.status(200).json(postsByBlogId)
     },
 
@@ -40,7 +40,7 @@ export const blogsController = {
         res: Response<PostViewModel | null>,) {
         const createPostByBlog = await postsService.createPostByBlogId(req.params.blogId, req.body)
         if(!createPostByBlog) return res.status(404).json()
-        const mapPostByBlog = await postsMongoQueryRepository.findPostById(createPostByBlog)
+        const mapPostByBlog = await postsQueryRepository.findPostById(createPostByBlog)
         return res.status(201).json(mapPostByBlog)
     },
 
