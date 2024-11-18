@@ -1,5 +1,4 @@
 import {Request, Response} from "express";
-import {PostInputModel, PostViewModel} from "../../utilities/types/post-types";
 import {postsQueryRepository} from "./repsitory/postsQueryRepository";
 import {Paginator, SortingQueryField} from "../../utilities/paginationAndSorting/paginator-type";
 import {postsService} from "./3_postsService";
@@ -7,7 +6,7 @@ import {CommentInputModel, CommentViewModel} from "../comments/commentModel";
 import {ResultStatus} from "../../utilities/resultError/resultStatus";
 import {ErrorMessage} from "../../utilities/resultError/resultType";
 import {commentsQueryRepository} from "../comments/repository/commentsQueryRepository";
-import {PostId} from "./post-type";
+import {PostId, PostInputModel, PostViewModel} from "./post-type";
 
 export const postsController = {
     async getAllPosts(

@@ -1,7 +1,6 @@
-import {PostInputModel} from "../../../utilities/types/post-types";
 import {postCollection} from "../../../db/mongo-db";
 import {ObjectId} from "mongodb";
-import {PostsDbType} from "../post-type";
+import {PostInputModel, PostsDbType} from "../post-type";
 
 export const postsRepository = {
     async findPostById(postId: string){

@@ -1,6 +1,6 @@
 import {Request, Response, NextFunction} from "express";
 import {jwtService} from "../../../utilities/jwtService/jwtService";
-import {IdType} from "../../../utilities/input-output-types/id";
+import {IdType} from "../../../utilities/types/id";
 import {usersMongoQueryRepository} from "../../users/repository/usersMongoQueryRepository";
 
 export const accessTokenGuard = async (

@@ -1,6 +1,9 @@
 import {ObjectId, WithId} from "mongodb";
 import {CommentDBType, CommentViewModel} from "../commentModel";
-import {commentCollection} from "../../../db/mongo-db";
+import {commentCollection, userCollection} from "../../../db/mongo-db";
+import {Paginator, SortingQueryField} from "../../../utilities/paginationAndSorting/paginator-type";
+import {UserViewModel} from "../../users/types/userViewModel";
+import {getPaginationAndSortOptions} from "../../../utilities/paginationAndSorting/paginationAndSorting";
 
 export const commentsQueryRepository = {
    async findComment (commentId: string): Promise<CommentViewModel | null> {
@@ -9,6 +12,26 @@ export const commentsQueryRepository = {
        let comment = await commentCollection.findOne({_id: new ObjectId(commentId)})
        return comment ? this._commentsDTO(comment) : null
    },
+
+    async findComments (query: SortingQueryField, postId: string): Promise<Paginator<CommentViewModel[]>> {
+        const processedQuery = getPaginationAndSortOptions(query);
+        const filter = {postId: postId}
+        const comments = await commentCollection
+            .find(filter)
+            .sort(processedQuery.sortBy, processedQuery.sortDirection)
+            .skip((processedQuery.pageNumber - 1) * processedQuery.pageSize)
+            .limit(processedQuery.pageSize)
+            .toArray()
+        const totalCount = await userCollection.countDocuments(filter)
+        const pagesCount = Math.ceil(totalCount / processedQuery.pageSize)
+        return {
+            'pagesCount': pagesCount,
+            'page': processedQuery.pageNumber,
+            'pageSize': processedQuery.pageSize,
+            'totalCount': totalCount,
+            'items': comments.map(c => this._commentsDTO(c))
+        }
+    },
 
     _commentsDTO(comments: WithId<CommentDBType>): CommentViewModel {
         return {

@@ -4,7 +4,7 @@ import {authService} from "./authService";
 import {ResultStatus} from "../../utilities/resultError/resultStatus";
 import {LoginSuccessViewModel} from "../../utilities/jwtService/jwtModel";
 import {usersMongoQueryRepository} from "../users/repository/usersMongoQueryRepository";
-import {IdType} from "../../utilities/input-output-types/id";
+import {IdType} from "../../utilities/types/id";
 
 export const authController = {
     async authUser(

@@ -1,10 +1,10 @@
-import {PostInputByBlogModel, PostInputModel} from "../../utilities/types/post-types";
 import {postsRepository} from "./repsitory/postsRepository";
 import {blogsMongoRepository} from "../blogs/repository/blogsMongoRepository";
 import {Result} from "../../utilities/resultError/resultType";
 import {ResultStatus} from "../../utilities/resultError/resultStatus";
 import {usersMongoRepository} from "../users/repository/usersMongoRepository";
 import {commentsRepository} from "../comments/repository/commentsRepository";
+import {PostInputByBlogModel, PostInputModel} from "./post-type";
 
 
 export const postsService = {

@@ -8,9 +8,9 @@ import {
     postUpdateInput
 } from "./helpers/dataTest";
 import {client, connectToDB} from "../db/mongo-db";
-import {PostViewModel} from "../utilities/types/post-types";
-import {BlogViewModel} from "../utilities/types/blogs-types";
 import {clearDB, codedAuth} from "./helpers/utilities";
+import {BlogViewModel} from "../features/blogs/blogsModel";
+import {PostViewModel} from "../features/posts/post-type";
 
 describe('/posts', () => {
     beforeAll(async () => {

@@ -1,6 +1,5 @@
 import {ObjectId, WithId} from "mongodb";
-import {PostsDbType} from "../post-type";
-import {PostViewModel} from "../../../utilities/types/post-types";
+import {PostsDbType, PostViewModel} from "../post-type";
 import {postCollection} from "../../../db/mongo-db";
 import {getPaginationAndSortOptions} from "../../../utilities/paginationAndSorting/paginationAndSorting";
 import {Paginator, SortingQueryField} from "../../../utilities/paginationAndSorting/paginator-type";

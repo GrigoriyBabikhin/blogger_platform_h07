@@ -13,13 +13,15 @@ export const appConfig = {
     BLOG_COLLECTION_NAME: 'blogCollection',
     POST_COLLECTION_NAME: 'postCollection',
     USER_COLLECTION_NAME: 'userCollection',
+    COMMENTS_COLLECTION_NAME: 'commentsCollection',
 
     PATH: {
         TESTING: '/testing/all-data',
         BLOGS: '/blogs',
         POSTS: '/posts',
         USERS: '/users',
-        AUTH: '/auth'
+        AUTH: '/auth',
+        COMMENTS: '/comments'
     },
 }
 //admin\qwerty
