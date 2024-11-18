@@ -1,6 +1,5 @@
 import {ObjectId, WithId} from "mongodb";
-import {BlogsDbType} from "../blogs-type";
-import {BlogViewModel} from "../../../utilities/input-output-types/blogs-types";
+import {BlogsDbType, BlogViewModel} from "../blogsModel";
 import {Paginator, SortingQueryField} from "../../../utilities/paginationAndSorting/paginator-type";
 import {getPaginationAndSortOptions} from "../../../utilities/paginationAndSorting/paginationAndSorting";
 import {blogCollection} from "../../../db/mongo-db";

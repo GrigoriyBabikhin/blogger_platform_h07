@@ -10,8 +10,8 @@ import {
 } from "./helpers/dataTest";
 import {client, connectToDB} from "../db/mongo-db";
 import {clearDB, codedAuth} from "./helpers/utilities";
-import {BlogViewModel} from "../utilities/input-output-types/blogs-types";
-import {PostViewModel} from "../utilities/input-output-types/post-types";
+import {BlogViewModel} from "../features/blogs/blogsModel";
+import {PostViewModel} from "../features/posts/post-type";
 
 describe('/blogs', () => {
     beforeAll(async () => {
