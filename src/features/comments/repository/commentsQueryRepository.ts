@@ -2,7 +2,6 @@ import {ObjectId, WithId} from "mongodb";
 import {CommentDBType, CommentViewModel} from "../commentModel";
 import {commentCollection, userCollection} from "../../../db/mongo-db";
 import {Paginator, SortingQueryField} from "../../../utilities/paginationAndSorting/paginator-type";
-import {UserViewModel} from "../../users/types/userViewModel";
 import {getPaginationAndSortOptions} from "../../../utilities/paginationAndSorting/paginationAndSorting";
 
 export const commentsQueryRepository = {
