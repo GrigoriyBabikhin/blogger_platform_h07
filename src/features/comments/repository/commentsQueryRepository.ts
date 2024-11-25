@@ -1,5 +1,5 @@
 import {ObjectId, WithId} from "mongodb";
-import {CommentDBType, CommentViewModel} from "../commentModel";
+import {CommentDbModel, CommentViewModel} from "../commentModel";
 import {commentCollection, userCollection} from "../../../db/mongo-db";
 import {Paginator, SortingQueryField} from "../../../utilities/paginationAndSorting/paginator-type";
 import {getPaginationAndSortOptions} from "../../../utilities/paginationAndSorting/paginationAndSorting";
@@ -32,7 +32,7 @@ export const commentsQueryRepository = {
         }
     },
 
-    _commentsDTO(comments: WithId<CommentDBType>): CommentViewModel {
+    _commentsDTO(comments: WithId<CommentDbModel>): CommentViewModel {
         return {
             id: comments._id.toString(),
             content: comments.content,
