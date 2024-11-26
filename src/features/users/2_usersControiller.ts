@@ -39,11 +39,7 @@ export const usersController = {
         const isDeleted = await usersService.delete(req.params.id)
 
         const {status, errorsMessages} = isDeleted
-        if (status === ResultStatus.NotFound) {
-            res.status(404).json(errorsMessages)
-            return
-        }
-
+        if (status === ResultStatus.NotFound) return res.status(404).json(errorsMessages)
 
         return res.status(204).json()
     },
