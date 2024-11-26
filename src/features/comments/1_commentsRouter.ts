@@ -7,4 +7,4 @@ export const commentsRouter = Router({})
 
 commentsRouter.get('/:commentId', commentsController.getComment)
 commentsRouter.put('/:commentId',accessTokenGuard, ...commentsInputValidation(), commentsController.updateComment)
-commentsRouter.delete('/:commentId',accessTokenGuard)
+commentsRouter.delete('/:commentId',accessTokenGuard, commentsController.deleteComment)
