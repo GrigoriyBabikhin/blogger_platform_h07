@@ -5,14 +5,14 @@ import {Paginator, SortingQueryField} from "../../../utilities/paginationAndSort
 import {getPaginationAndSortOptions} from "../../../utilities/paginationAndSorting/paginationAndSorting";
 
 export const commentsQueryRepository = {
-   async findComment (commentId: string): Promise<CommentViewModel | null> {
-       if(!this._checkObjectId(commentId)) return null
+    async findComment(commentId: string): Promise<CommentViewModel | null> {
+        if (!this._checkObjectId(commentId)) return null
 
-       let comment = await commentCollection.findOne({_id: new ObjectId(commentId)})
-       return comment ? this._commentsDTO(comment) : null
-   },
+        let comment = await commentCollection.findOne({_id: new ObjectId(commentId)})
+        return comment ? this._commentsDTO(comment) : null
+    },
 
-    async findComments (query: SortingQueryField, postId: string): Promise<Paginator<CommentViewModel[]>> {
+    async findComments(query: SortingQueryField, postId: string): Promise<Paginator<CommentViewModel[]>> {
         const processedQuery = getPaginationAndSortOptions(query);
         const filter = {postId: postId}
         const comments = await commentCollection
@@ -21,7 +21,7 @@ export const commentsQueryRepository = {
             .skip((processedQuery.pageNumber - 1) * processedQuery.pageSize)
             .limit(processedQuery.pageSize)
             .toArray()
-        const totalCount = await userCollection.countDocuments(filter)
+        const totalCount = await commentCollection.countDocuments(filter)
         const pagesCount = Math.ceil(totalCount / processedQuery.pageSize)
         return {
             'pagesCount': pagesCount,
