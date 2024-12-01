@@ -1,8 +1,7 @@
 import {Result} from "../../utilities/resultError/resultType";
-import {CommentInputModel} from "./commentModel";
 import {commentsRepository} from "./repository/commentsRepository";
 import {ResultStatus} from "../../utilities/resultError/resultStatus";
-import {commentsController} from "./2_commentsController";
+
 
 
 export const commentsService = {

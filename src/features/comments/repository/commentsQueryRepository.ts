@@ -1,6 +1,6 @@
 import {ObjectId, WithId} from "mongodb";
 import {CommentDbModel, CommentViewModel} from "../commentModel";
-import {commentCollection, userCollection} from "../../../db/mongo-db";
+import {commentCollection} from "../../../db/mongo-db";
 import {Paginator, SortingQueryField} from "../../../utilities/paginationAndSorting/paginator-type";
 import {getPaginationAndSortOptions} from "../../../utilities/paginationAndSorting/paginationAndSorting";
 
